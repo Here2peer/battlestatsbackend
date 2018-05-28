@@ -1,6 +1,8 @@
 from flask import Flask, session, request, redirect, url_for, g
 from flask_openid import OpenID
 import json
+import players
+import matches
 
 app = Flask(__name__)
 app.config.update(
@@ -11,14 +13,12 @@ openID = OpenID(app)
 
 @app.route("/")
 def home():
-    if g.user:
-        return getInfo(), 200
-    return 'Not logged in', 200
+    return matches.getMatchesJson(), 200
 
 def getInfo():
     request.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%d" % (SECRET_KEY, g.user))
     data = json.loads(request.data)
-    return data['respone'] or {}
+    return data['response'] or {}
 
 @app.route('/login')
 @openID.loginhandler
