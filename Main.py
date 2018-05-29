@@ -4,7 +4,7 @@ from flask_openid import OpenID
 import flask_cors
 from championData.ChampionData import update_champion_data, get_champion_data
 import json, requests, os
-
+import teams
 import players
 import matches
 
@@ -28,11 +28,13 @@ def getInfo():
 
 @app.route("/")
 def home():
-    if 'ID' in session:
+    #if 'ID' in session:
         #return '>%s<' % d['steam']#.strip()
         #return "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'], session['ID']), 200
-        return 'Logged in as: %s' % json.loads(getInfo())['response']['players'][0]['personaname'], 200
-    return 'Not logged in', 200
+        #return 'Logged in as: %s' % json.loads(getInfo())['response']['players'][0]['personaname'], 200
+    #return 'Not logged in', 200
+
+    return players.getPlayerJson("Joltz")
 
 @app.route('/login')
 @openID.loginhandler
@@ -60,3 +62,8 @@ def getGameplayJson():
 @cross_origin()
 def getPlayer():
     return jsonify(players.getPlayerInfo('Joltz'))
+
+@app.route('/team')
+@cross_origin()
+def getTeam():
+    return jsonify())
