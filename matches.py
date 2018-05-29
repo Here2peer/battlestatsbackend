@@ -1,5 +1,6 @@
 import requests
 import json
+import players
 
 global url
 url = "https://api.dc01.gamelockerapp.com/shards/global/matches"
@@ -11,10 +12,10 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getMatchesInfo():
+def getMatchesInfo(playerName):
     query = {
         "sort": "createdAt",
-        "filter[playerIds]": 989458479959953408
+        "filter[playerIds]": players.getPlayerId(playerName)
     }
 
     request = requests.get(url, headers=header, params=query)
