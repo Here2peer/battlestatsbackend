@@ -1,9 +1,10 @@
 import requests
 import json
+import players
 
-global url
-url = "https://api.dc01.gamelockerapp.com/shards/global/players"
-
+def getMatch(id):
+    global url
+    url = "https://api.dc01.gamelockerapp.com/shards/global/matches/" + id
 
 global header
 header = {
@@ -11,25 +12,11 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getPlayerInfo(playerName):
+def getMatchJson():
     query = {
-        "filter[playerNames]": playerName,
-        "page[limit]": "3"
+        "sort": "createdAt",
     }
-    request = requests.get(url, headers=header, params=query)
-    request = request.json()
-    return request
 
-def getPlayerJson(playerName):
-    query = {
-        "filter[playerNames]": playerName,
-        "page[limit]": "3"
-    }
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)
-
-def getPlayerId(playerName):
-
-    playerId = getPlayerInfo(playerName)["data"][0]["id"]
-    return playerId

@@ -1,5 +1,6 @@
 import requests
 import json
+import players
 
 global url
 url = "https://api.dc01.gamelockerapp.com/shards/global/matches"
@@ -11,20 +12,20 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getMatchesInfo():
+def getMatchesInfo(playerId):
     query = {
         "sort": "createdAt",
-        "filter[playerIds]": 989458479959953408
+        "filter[playerIds]": playerId
     }
 
     request = requests.get(url, headers=header, params=query)
     request = request.json()
     return request
 
-def getMatchesJson():
+def getMatchesJson(playerId):
     query = {
         "sort": "createdAt",
-        "filter[playerName]": "Joltz"
+        "filter[playerIds]": playerId
     }
 
     r = requests.get(url, headers=header, params=query)
@@ -32,10 +33,10 @@ def getMatchesJson():
     return json.dumps(f)
 
 
-def getPlayerMatches():
+def getPlayerMatches(match, playerID):
 
-    assetIdTest = "288039dd-4961-11e8-a3c8-0a586460b906"
-    assetID = getMatchesInfo()["included"]
+    assetIdTest = "19520047-4e39-11e8-b6f7-0a5864608818"
+    assetID = getMatchesInfo(playerID)["included"]
     assetsArray = []
 
     for asset in assetID:
