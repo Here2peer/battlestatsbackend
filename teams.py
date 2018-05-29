@@ -1,11 +1,9 @@
 import requests
 import json
 import players
-import matches
 
-def getMatch(match, playerID):
-    global url
-    url = "https://api.dc01.gamelockerapp.com/shards/global/matches/" + matches.getMatchLocation(match, playerID)
+global url
+url = "https://api.dc01.gamelockerapp.com/shards/global/teams?tag[season]=2&tag[playerIds]=" + players.getPlayerId("Arkdn") + "," + players.getPlayerId("Unimportant") + "," + players.getPlayerId("Aniratak")
 
 global header
 header = {
@@ -13,26 +11,19 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getMatchInfo(match, playerID):
-
-    getMatch(match, playerID)
-
+def getTeamInfo():
     query = {
-        "sort": "createdAt",
+        "tag[playerIds]": "none"
     }
 
     request = requests.get(url, headers=header, params=query)
     request = request.json()
     return request
 
-def getMatchJson(match, playerID):
-
-    getMatch(match, playerID)
-
+def getTeamJson():
     query = {
-        "sort": "createdAt",
+        "tag[playerIds]": "none"
     }
-
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)

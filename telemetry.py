@@ -3,9 +3,8 @@ import json
 import players
 import matches
 
-def getMatch(match, playerID):
-    global url
-    url = "https://api.dc01.gamelockerapp.com/shards/global/matches/" + matches.getMatchLocation(match, playerID)
+global url
+url = "https://cdn.gamelockerapp.com/stunlock-studios-battlerite/global/2018/05/02/17/07/55dea46c-4e2b-11e8-a3c8-0a586460b906-telemetry.json"
 
 global header
 header = {
@@ -13,24 +12,18 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getMatchInfo(match, playerID):
-
-    getMatch(match, playerID)
-
+def getTelemetryInfo():
     query = {
-        "sort": "createdAt",
+        "page[limit]": "3000"
     }
 
     request = requests.get(url, headers=header, params=query)
     request = request.json()
     return request
 
-def getMatchJson(match, playerID):
-
-    getMatch(match, playerID)
-
+def getTelemetryJson():
     query = {
-        "sort": "createdAt",
+        "page[limit]": "3000"
     }
 
     r = requests.get(url, headers=header, params=query)

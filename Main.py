@@ -4,6 +4,8 @@ import json
 import players
 import matches
 import singleMatch
+import teams
+import telemetry
 
 app = Flask(__name__)
 app.config.update(
@@ -14,9 +16,6 @@ openID = OpenID(app)
 
 @app.route("/")
 def home():
-    #return matches.getMatchesJson(7854)
-    singleMatch.getMatch("851A717925D7434C992644FEC0494E34")
-    return singleMatch.getMatchJson(), 200
 
 def getInfo():
     request.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%d" % (SECRET_KEY, g.user))

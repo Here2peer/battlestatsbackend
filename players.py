@@ -25,6 +25,7 @@ def getPlayerJson(playerName):
         "filter[playerNames]": playerName,
         "page[limit]": "3"
     }
+
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)

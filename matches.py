@@ -32,19 +32,10 @@ def getMatchesJson(playerId):
     f = r.json()
     return json.dumps(f)
 
+def getMatchLocation(match, playerID):
 
-def getPlayerMatches(match, playerID):
+    matchesLoads = json.loads(getMatchesJson(playerID))
+    matchesLength = len(matchesLoads["data"])
 
-    assetIdTest = "19520047-4e39-11e8-b6f7-0a5864608818"
-    assetID = getMatchesInfo(playerID)["included"]
-    assetsArray = []
-
-    for asset in assetID:
-        if asset["type"] == "asset":
-            assetsArray.append(asset["id"])
-
-    poep = assetsArray
-
-    for assetje in poep:
-        if assetje == assetIdTest:
-            return str(poep.index(assetje))
+    matchID = getMatchesInfo(playerID)["data"][matchesLength - match]["id"]
+    return matchID
