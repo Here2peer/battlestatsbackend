@@ -22,7 +22,7 @@ def getInfo():
         #test = json.loads(data.text) <-- convert to python shit called dict
         data.jsonify
     except:
-        return None;
+        return "NULL";
     return data.text
 
 @app.route("/")
