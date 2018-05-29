@@ -1,4 +1,4 @@
-from flask import Flask, session, request, redirect, url_for, g
+from flask import Flask, session, request, redirect, url_for, g, jsonify
 from flask_cors import cross_origin
 from flask_openid import OpenID
 import flask_cors
@@ -59,4 +59,4 @@ def getGameplayJson():
 @app.route('/player')
 @cross_origin()
 def getPlayer():
-    return players.getPlayerInfo()
+    return jsonify(players.getPlayerInfo('Joltz'))
