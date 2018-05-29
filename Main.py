@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, url_for, jsonify, request, g, make_response
 from flask_openid import OpenID
-import json, requests, os, ORM
+import json, requests, os
 
 app = Flask(__name__)
 d = {}
@@ -14,6 +14,8 @@ app.config.update(
     TESTING = True
 )
 openID = OpenID(app)
+
+@app.route("/steamuser")
 def getInfo():
     data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'].strip(), session['ID']))
     #test = json.loads(data.text) <-- convert to python shit called dict
