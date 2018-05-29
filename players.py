@@ -11,6 +11,7 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
+
 def getPlayerInfo():
     query = {
         "filter[playerNames]": "Joltz",

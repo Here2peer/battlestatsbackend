@@ -34,3 +34,7 @@ def go(resp):
 def logout():
     session.pop('openid', None)
     return redirect(url_for('home'))
+
+@app.route('/player')
+def getPlayer():
+    return players.getPlayerInfo()
