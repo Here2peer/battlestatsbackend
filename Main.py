@@ -1,10 +1,12 @@
-from flask import Flask, session, redirect, url_for, jsonify
+from flask import Flask, session, request, redirect, url_for, g
 from flask_cors import cross_origin
 from flask_openid import OpenID
 import flask_cors
 from championData.ChampionData import update_champion_data, get_champion_data
 import json, requests, os
 
+import players
+import matches
 
 app = Flask(__name__)
 #  cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -53,3 +55,7 @@ def logout():
 @cross_origin()
 def getGameplayJson():
     return get_champion_data()
+
+@app.route('/player')
+def getPlayer():
+    return players.getPlayerInfo()
