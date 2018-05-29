@@ -1,8 +1,13 @@
 from flask import Flask, session, redirect, url_for, jsonify
+from flask_cors import cross_origin
 from flask_openid import OpenID
+import flask_cors
+from championData.ChampionData import update_champion_data, get_champion_data
 import json, requests, os
 
+
 app = Flask(__name__)
+#  cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 d = {}
 with open('ApiKey.txt', 'r') as f:
     for line in f:
@@ -43,3 +48,8 @@ def go(resp):
 def logout():
     session.pop('ID', None)
     return redirect(url_for('home'))
+
+@app.route("/gameplay")
+@cross_origin()
+def getGameplayJson():
+    return get_champion_data()
