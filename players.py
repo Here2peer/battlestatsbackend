@@ -11,12 +11,26 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-
-def getPlayerInfo():
+def getPlayerInfo(playerName):
     query = {
-        "filter[playerNames]": "Joltz",
+        "filter[playerNames]": playerName,
         "page[limit]": "3"
     }
+    request = requests.get(url, headers=header, params=query)
+    request = request.json()
+    return request
+
+def getPlayerJson(playerName):
+    query = {
+        "filter[playerNames]": playerName,
+        "page[limit]": "3"
+    }
+
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)
+
+def getPlayerId(playerName):
+
+    playerId = getPlayerInfo(playerName)["data"][0]["id"]
+    return playerId
