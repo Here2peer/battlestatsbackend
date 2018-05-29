@@ -17,12 +17,10 @@ openID = OpenID(app)
 
 @app.route("/steamuser")
 def getInfo():
+    if 'ID' in session:
         data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'].strip(), session['ID']))
-        #test = json.loads(data.text) <-- convert to python shit called dict
-        #test = json.loads(data.text)
-        #jsonify(test)
-        jsonify(data.text)
-    return data.text
+        return data.text
+    return "NULL"
 
 @app.route("/")
 def home():
