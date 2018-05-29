@@ -57,5 +57,6 @@ def getGameplayJson():
     return get_champion_data()
 
 @app.route('/player')
+@cross_origin()
 def getPlayer():
     return players.getPlayerInfo()
