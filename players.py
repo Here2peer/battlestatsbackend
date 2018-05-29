@@ -18,10 +18,15 @@ def getPlayerInfo(playerName):
     }
     request = requests.get(url, headers=header, params=query)
     request = request.json()
-    customStats = {}
-    customStats['timePlayed'] = "hoi"
-    customStats['winRate'] = "hpoi"
-    request['data'][0]['attributes']['customstats'] = customStats
+    custom_stats = {}
+    stats = request['data'][0]['attributes']['stats']
+    time_played = int(stats['8'])
+    hours_played = int(time_played/60/60)
+    wins = int(stats['2'])
+    losses = int(stats['3'])
+    custom_stats['timePlayed'] = str(hours_played) + "h"
+    custom_stats['winRate'] = str(round(wins/(wins+losses)*100.0, 1))+'%'
+    request['data'][0]['attributes']['customstats'] = custom_stats
     return request
 
 def getPlayerJson(playerName):

@@ -61,9 +61,9 @@ def getGameplayJson():
 @app.route('/player')
 @cross_origin()
 def getPlayer():
-    return jsonify(players.getPlayerInfo('Joltz'))
+    return jsonify(players. getPlayerInfo('Joltz'))
 
 @app.route('/team')
 @cross_origin()
 def getTeam():
-    return jsonify())
+    return jsonify()
