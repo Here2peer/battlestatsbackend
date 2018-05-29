@@ -18,6 +18,10 @@ def getPlayerInfo(playerName):
     }
     request = requests.get(url, headers=header, params=query)
     request = request.json()
+    customStats = {}
+    customStats['timeplayed'] = "hoi"
+    customStats['winrate'] = "hpoi"
+    request['data'][0]['customstats'] = customStats
     return request
 
 def getPlayerJson(playerName):
