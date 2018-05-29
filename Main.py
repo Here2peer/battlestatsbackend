@@ -20,7 +20,9 @@ def getInfo():
     try:
         data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'].strip(), session['ID']))
         #test = json.loads(data.text) <-- convert to python shit called dict
-        data.jsonify
+        #test = json.loads(data.text)
+        #jsonify(test)
+        jsonify(data.text)
     except:
         return "NULL";
     return data.text
