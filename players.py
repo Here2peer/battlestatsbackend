@@ -21,7 +21,7 @@ def getPlayerInfo(playerName):
     customStats = {}
     customStats['timeplayed'] = "hoi"
     customStats['winrate'] = "hpoi"
-    request['data'][0]['customstats'] = customStats
+    request['data'][0]['attributes']['customstats'] = customStats
     return request
 
 def getPlayerJson(playerName):
