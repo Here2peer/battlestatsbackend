@@ -70,3 +70,6 @@ modules.xml
 
 
 # End of https://www.gitignore.io/api/pycharm+all
+__pycache__/players.cpython-36.pyc
+__pycache__/matches.cpython-36.pyc
+__pycache__/Main.cpython-36.pyc

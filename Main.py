@@ -16,6 +16,7 @@ openID = OpenID(app)
 
 @app.route("/")
 def home():
+    return players.getPlayerId("Joltz")
 
 def getInfo():
     request.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%d" % (SECRET_KEY, g.user))
@@ -36,3 +37,7 @@ def go(resp):
 def logout():
     session.pop('openid', None)
     return redirect(url_for('home'))
+
+@app.route('/player')
+def getPlayer():
+    return players.getPlayerInfo()
