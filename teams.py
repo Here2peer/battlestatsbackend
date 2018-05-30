@@ -2,10 +2,18 @@ import requests
 import json
 import players
 
-def getURL(player1,player2,player3):
+def getURL(player):
     global url
-    url = "https://api.dc01.gamelockerapp.com/shards/global/teams?tag[season]=2&tag[playerIds]=" + players.getPlayerId(player1) + "," + players.getPlayerId(player2) + "," + players.getPlayerId(player3)
+    playerString = ""
+    for pl in player:
+        playerString += players.getPlayerId(pl)
+        if pl != player[len(player) - 1]:
+            playerString += ","
+    print(playerString)
+    url = "https://api.dc01.gamelockerapp.com/shards/global/teams?tag[season]=2&tag[playerIds]=" + playerString
+    print(url)
     return url
+
 
 global header
 header = {
@@ -13,9 +21,9 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getTeamInfo(player1,player2,player3):
+def getTeamInfo(*player):
 
-    url = getURL(player1,player2,player3)
+    url = getURL(player)
 
     query = {
         "tag[playerIds]": "none"
@@ -23,11 +31,34 @@ def getTeamInfo(player1,player2,player3):
 
     request = requests.get(url, headers=header, params=query)
     request = request.json()
-    return request
 
-def getTeamJson(player1,player2,player3):
+    team_data = request["data"]
+    return fetchTeamMemberNames(team_data)
 
-    url = getURL(player1,player2,player3)
+
+def fetchTeamMemberNames(team_data):
+    processedIDS = {}  # don't fetch players twice!
+    for team in team_data:  # for every team
+        members = {}
+        team_members = team['attributes']['stats']['members']  # collect member ID's of team in a list
+        # todo create database of playernames - id's bcz fetching it all takes too long/raises errors
+        for member in team_members:
+            if member not in processedIDS.keys():  # skip this step for preprocessed players
+                members[member] = players.getPlayerInfo(1, member)['data'][0]['attributes']['name']  # find name with id
+                processedIDS[member] = members[member]
+            else:
+                members[member] = processedIDS[member]
+
+            if member != team_members[len(team_members) - 1]:  # add a , for all but the last name for frontend purposes
+                members[member] += ', '
+
+        team['attributes']['stats']['member_names'] = members
+    return team_data
+
+
+def getTeamJson(*player):
+
+    url = getURL(player)
     query = {
         "tag[playerIds]": "none"
     }

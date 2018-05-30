@@ -11,22 +11,37 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getPlayerInfo(playerName):
-    query = {
-        "filter[playerNames]": playerName,
-        "page[limit]": "3"
-    }
+def getPlayerInfo(id, playerName):
+    if id:
+        query = {
+            "filter[playerIds]": playerName,
+            "page[limit]": "3"
+        }
+    else:
+        query = {
+            "filter[playerNames]": playerName,
+            "page[limit]": "3"
+        }
     request = requests.get(url, headers=header, params=query)
-    request = request.json()
-    custom_stats = {}
-    stats = request['data'][0]['attributes']['stats']
-    time_played = int(stats['8'])
-    hours_played = int(time_played/60/60)
-    wins = int(stats['2'])
-    losses = int(stats['3'])
-    custom_stats['timePlayed'] = str(hours_played) + "h"
-    custom_stats['winRate'] = str(round(wins/(wins+losses)*100.0, 1))+'%'
-    request['data'][0]['attributes']['customstats'] = custom_stats
+    #  print(request.text)
+    try:
+        request = request.json()
+
+        custom_stats = {}
+        stats = request['data'][0]['attributes']['stats']
+        time_played = int(stats['8'])
+        hours_played = int(time_played / 60 / 60)
+        wins = int(stats['2'])
+        losses = int(stats['3'])
+        custom_stats['timePlayed'] = str(hours_played) + "h"
+        custom_stats['winRate'] = str(round(wins / (wins + losses) * 100.0, 1)) + '%'
+        request['data'][0]['attributes']['customstats'] = custom_stats
+
+    except ValueError:  # includes simplejson.decoder.JSONDecodeError
+        print('Decoding JSON has failed -- ***********************************')
+        return json.load(open('fakePLayer.json', 'r'))
+
+
     return request
 
 def getPlayerJson(playerName):
@@ -40,6 +55,5 @@ def getPlayerJson(playerName):
     return json.dumps(f)
 
 def getPlayerId(playerName):
-
-    playerId = getPlayerInfo(playerName)["data"][0]["id"]
+    playerId = getPlayerInfo(0, playerName)["data"][0]["id"]
     return playerId

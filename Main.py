@@ -48,27 +48,49 @@ def go(resp):
     session['ID'] = app.config['SECRET_KEY']
     return redirect(url_for('home'))
 
+
 @app.route("/logout")
 def logout():
     session.pop('ID', None)
     return redirect(url_for('home'))
+
 
 @app.route("/gameplay")
 @cross_origin()
 def getGameplayJson():
     return get_champion_data()
 
+
 @app.route('/player')
 @cross_origin()
 def getPlayer():
-    return jsonify(players.getPlayerInfo('Joltz'))
+    id = 0
+    if "id" in request.args.keys():
+        if request.args.get('id') == "true":
+            id = 1
 
-@app.route('/matches')
+    if "player" in request.args.keys():
+        player_name = request.args.get("player").replace('"', '')
+    else:
+        player_name = "Arkdn"
+    return jsonify(players.getPlayerInfo(id, player_name))
+
+
+@app.route('/match')
 @cross_origin()
 def getMatch():
-    return jsonify(matches.getMatchesInfo('Joltz'))
+    if "player" in request.args.keys():
+        player_name = request.args.get("player").replace('"', '')
+    else:
+        player_name = "Arkdn"
+    return jsonify(matches.getMatchesInfo(player_name))
+
 
 @app.route('/team')
 @cross_origin()
 def getTeam():
-    return jsonify(teams.getTeamInfo("Arkdn", "Unimportant", "Aniratak"))
+    if "player" in request.args.keys():
+        player_name = request.args.get("player").replace('"', '')
+    else:
+        player_name = "Arkdn"
+    return jsonify(teams.getTeamInfo(player_name))
