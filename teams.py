@@ -5,6 +5,7 @@ import players
 def getURL(player1,player2,player3):
     global url
     url = "https://api.dc01.gamelockerapp.com/shards/global/teams?tag[season]=2&tag[playerIds]=" + players.getPlayerId(player1) + "," + players.getPlayerId(player2) + "," + players.getPlayerId(player3)
+    return url
 
 global header
 header = {
@@ -14,7 +15,8 @@ header = {
 
 def getTeamInfo(player1,player2,player3):
 
-    url = getUrl(player1,player2,player3)
+    url = getURL(player1,player2,player3)
+
     query = {
         "tag[playerIds]": "none"
     }
@@ -25,7 +27,7 @@ def getTeamInfo(player1,player2,player3):
 
 def getTeamJson(player1,player2,player3):
 
-    url = getUrl(player1,player2,player3)
+    url = getURL(player1,player2,player3)
     query = {
         "tag[playerIds]": "none"
     }

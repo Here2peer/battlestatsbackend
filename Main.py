@@ -71,4 +71,4 @@ def getMatch():
 @app.route('/team')
 @cross_origin()
 def getTeam():
-    return jsonify()
+    return jsonify(teams.getTeamInfo("Arkdn", "Unimportant", "Aniratak"))
