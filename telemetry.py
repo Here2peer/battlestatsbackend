@@ -1,10 +1,10 @@
 import requests
 import json
 import players
+import matches
 
-def getURL(player1,player2,player3):
-    global url
-    url = "https://api.dc01.gamelockerapp.com/shards/global/teams?tag[season]=2&tag[playerIds]=" + players.getPlayerId(player1) + "," + players.getPlayerId(player2) + "," + players.getPlayerId(player3)
+global url
+url = "https://cdn.gamelockerapp.com/stunlock-studios-battlerite/global/2018/05/02/17/07/55dea46c-4e2b-11e8-a3c8-0a586460b906-telemetry.json"
 
 global header
 header = {
@@ -12,23 +12,20 @@ header = {
     "Accept": "application/vnd.api+json"
 }
 
-def getTeamInfo(player1,player2,player3):
-
-    url = getUrl(player1,player2,player3)
+def getTelemetryInfo():
     query = {
-        "tag[playerIds]": "none"
+        "page[limit]": "3000"
     }
 
     request = requests.get(url, headers=header, params=query)
     request = request.json()
     return request
 
-def getTeamJson(player1,player2,player3):
-
-    url = getUrl(player1,player2,player3)
+def getTelemetryJson():
     query = {
-        "tag[playerIds]": "none"
+        "page[limit]": "3000"
     }
+
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)

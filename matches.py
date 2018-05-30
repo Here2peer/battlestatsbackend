@@ -22,10 +22,10 @@ def getMatchesInfo(playerName):
     request = request.json()
     return request
 
-def getMatchesJson():
+def getMatchesJson(playerName):
     query = {
         "sort": "createdAt",
-        "filter[playerName]": "Joltz"
+        "filter[playerName]":  players.getPlayerId(playerName)
     }
 
     r = requests.get(url, headers=header, params=query)
