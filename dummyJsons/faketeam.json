@@ -1,0 +1,35 @@
+[
+  {
+    "attributes": {
+      "name": "fake team",
+      "shardId": "global",
+      "stats": {
+        "avatar": 0,
+        "division": 999,
+        "divisionRating": 999,
+        "league": 999,
+        "losses": 999,
+        "member_names": {
+          "783445891691466752": "fake player",
+          "783445891691466753": " API probably is overloaded"
+        },
+        "members": [
+          "783445891691466752"
+        ],
+        "placementGamesLeft": 999,
+        "topDivision": 999,
+        "topDivisionRating": 999,
+        "topLeague": 999,
+        "wins": 999
+      },
+      "titleId": "stunlock-studios-battlerite"
+    },
+    "id": "840268178163642368",
+    "relationships": {
+      "assets": {
+        "data": []
+      }
+    },
+    "type": "team"
+  }
+  ]

@@ -1,0 +1,1 @@
+used when api denies request or json is corrupted
