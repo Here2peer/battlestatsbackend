@@ -39,7 +39,7 @@ def getPlayerInfo(id, playerName):
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
         print(str(request.content))
-        with open('dummyJsons/failed.txt', 'rw') as failedjson:
+        with open('dummyJsons/failed.txt', 'w') as failedjson:
             failedjson.write(str(request.content))
         return json.load(open('dummyJsons/fakePLayer.json', 'r'))
 
