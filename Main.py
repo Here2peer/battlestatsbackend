@@ -57,13 +57,20 @@ def get_steam_user_info(steam_id):
     return rv['response']['players']['player'][0] or {}
 
 
-@app.route('/avatar', methods=['POST'])
-def get_avatar(steamid):
-
-    http = urllib3.PoolManager()
-    url = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg"
-    bla = http.request('GET', url)
-    return bla
+@app.route('/avatar', methods=['GET'])
+@cross_origin()
+def get_avatar():
+    print("jemoeder")
+    try:
+        id = request.args['steamid']
+        print(id)
+        url = {"url": "/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg"}
+        return jsonify(url)
+        # avatar_dict = {"url": get_steam_user_info(id)['avatar']}
+        # return jsonify(avatar_dict)
+    except KeyError:
+        print("oeps")
+        return jsonify({"url": "fake news"})
 
 
 @app.route("/gameplay")
