@@ -1,22 +1,12 @@
-from flask import Flask, session, request, redirect, url_for, g, jsonify
+from flask import Flask,  redirect, request, session, jsonify
 from flask_cors import cross_origin
-import urllib
-
-from flask import Flask,  redirect, request
 from flask_openid import OpenID
-import flask_cors
 from championData.ChampionData import update_champion_data, get_champion_data
-import json, requests, os
-import teams
-import players
-import matches
-import json, requests, os, ORM
+import teams, players, matches, json, requests, urllib3, re
+
 from urllib import parse
-import urllib3
-import re
 
 app = Flask(__name__)
-#  cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 d = {}
 avatar = ''
 with open('ApiKey.txt', 'r') as f:
@@ -30,20 +20,7 @@ app.config.update(
 )
 openID = OpenID(app)
 
-@app.route("/steamuser")
-def getInfo():
-    if 'steamID' in session:
-        data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'].strip(), session['steamID']))
-        return data.text
-    return "NULL", 200
 
-@app.route("/")
-def home():
-    if 'steamID' in session:
-        #return '>%s<' % d['steam']#.strip()
-        #return "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'], session['ID']), 200
-        return 'Logged in as: {}'.format(json.loads(getInfo())['response']['players'][0]['personaname']), 200
-    return 'Not logged in', 200
 @app.route('/steam', methods=['GET'])
 def steam():
     steam_openid_url = 'https://steamcommunity.com/openid/login'
