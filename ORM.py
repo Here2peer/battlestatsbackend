@@ -4,13 +4,15 @@ from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-#conn = create_engine('mysql+pymysql://root:root@127.0.0.1/demo')
+conn = create_engine('mysql+pymysql://root:groep5@localhost:3306')
 Base = declarative_base()
 
-class Photo(Base):
-    __tablename__ = 'photo'
+class Tournament(Base):
+    __tablename__ = 'Tournament'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+
+    
     filename = Column(String(64))
     title = Column(String(64))
     date = Column(DateTime)
