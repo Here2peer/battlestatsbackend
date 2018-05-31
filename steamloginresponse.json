@@ -1,0 +1,22 @@
+{
+  "response": {
+    "players": {
+      "player": [
+        {
+          "steamid": "76561198066419856",
+          "communityvisibilitystate": 3,
+          "personaname": "rickhuizing",
+          "lastlogoff": 1525132255,
+          "profileurl": "https://steamcommunity.com/profiles/76561198066419856/",
+          "avatar": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+          "avatarmedium": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg",
+          "avatarfull": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+          "personastate": 0,
+          "primaryclanid": "103582791429521408",
+          "timecreated": 1341265704,
+          "personastateflags": 0
+        }
+      ]
+    }
+  }
+}
