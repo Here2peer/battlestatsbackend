@@ -4,20 +4,20 @@ from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-conn = create_engine('mysql+pymysql://root:groep5@localhost:3306')
+engine = create_engine('mysql+pymysql://root@localhost')
+engine.connect()
 Base = declarative_base()
+Session = sessionmaker(bind=engine)
+conn = Session()
 
 class Tournament(Base):
     __tablename__ = 'Tournament'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    tourID = Column(Integer)
 
-    
-    filename = Column(String(64))
-    title = Column(String(64))
-    date = Column(DateTime)
-    longitude = Column(Float)
-    latitude = Column(Float)
+    def __repr__(self):
+        return "<Tournament(tourID='%s')" % (self.tourID)
 
     #id	Integer, auto_increment, primary key
     #filename	varchar(64)
@@ -26,32 +26,9 @@ class Tournament(Base):
     #longitude	float
     #latitude	float
 
-
-class Persister():
-    def persist_object(self, obj):
-        self.session.add(obj)
-        self.session.commit()
-        pass;
-
-    def __init__ (self):
-        #Session = sessionmaker(bind=conn)
-        self.session = Session()
-        pass
-
-
-    def get_thumbs(self, id=0):
-        # todo
-        pass
-
-
-    def get_photo(self, id):
-        # todo
-        pass
-
-
-    def __repr__(self):
-        return "<Persister (session: {})>".format(self.session)
-
+tour = Tournament(tourID = '2')
+conn.add(tour)
+conn.commit()
 
 #http://stackoverflow.com/questions/12122007/python-json-encoder-to-support-datetime
 class DatetimeEncoder(json.JSONEncoder):

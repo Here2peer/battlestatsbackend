@@ -1,7 +1,6 @@
 from flask import Flask, session, redirect, url_for, jsonify, request, g, make_response
 from flask_openid import OpenID
-from flask_cors import cross_origin
-import json, requests, os
+import json, requests, os, ORM
 
 app = Flask(__name__)
 d = {}
@@ -10,7 +9,7 @@ with open('ApiKey.txt', 'r') as f:
         (key, value) = line.split(":")
         d[key] = value
 app.config.update(
-    SECRET_KEY = os.urandom(24),
+    SECRET_KEY = 'static', #os.urandom(24),
     DEBUG = True,
     TESTING = True
 )
@@ -19,13 +18,11 @@ openID = OpenID(app)
 @app.route("/steamuser")
 def getInfo():
     if 'steamID' in session:
-        data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json"
-        % (d['steam'].strip(), session['steamID']))
+        data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (d['steam'].strip(), session['steamID']))
         return data.text
-    return "NULL"
+    return "NULL", 200
 
 @app.route("/")
-@cross_origin()
 def home():
     if 'steamID' in session:
         #return '>%s<' % d['steam']#.strip()
