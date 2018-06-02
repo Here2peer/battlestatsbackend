@@ -1,3 +1,6 @@
+from flask import Flask
+from cfg import keys
+
 from flask import Flask,  redirect, request, session, jsonify
 from flask_cors import cross_origin
 from flask_openid import OpenID
@@ -7,19 +10,15 @@ import teams, players, matches, json, requests, urllib3, re
 from urllib import parse
 
 app = Flask(__name__)
-d = {}
 avatar = ''
-with open('ApiKey.txt', 'r') as f:
-    for line in f:
-        (key, value) = line.split(":")
-        d[key] = value
+
 app.config.update(
-    SECRET_KEY = 'static', #os.urandom(24),
+    SECRET_KEY = 'static', #os.urandom(24), <-- can be used to use random keys(not api)
     DEBUG = True,
     TESTING = True
 )
-openID = OpenID(app)
 
+openID = OpenID(app)
 
 @app.route('/steam', methods=['GET'])
 def steam():
