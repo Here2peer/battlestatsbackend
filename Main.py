@@ -1,13 +1,11 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, request, jsonify # session?
 from flask_openid import OpenID
-from cfg import keys
-
-from flask import Flask,  redirect, request, session, jsonify
 from flask_cors import cross_origin
-from championData.ChampionData import update_champion_data, get_champion_data
-import teams, players, matches, json, requests, urllib3, re
-
-from urllib import parse
+from Battlerite.championData import ChampionData
+from cfg.cfg import keys
+from Steam import Steam
+import teams, players, matches # requests, json, urllib3, re?
+#from urllib import parse?
 
 app = Flask(__name__)
 openID = OpenID(app)
@@ -20,9 +18,7 @@ app.config.update(
 )
 
 def getInfo(steamID):
-    data = requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json"
-    % (keys['Steam'], steamID))
-    return data.text
+    return Steam.getInfo(steamID)
 
 @app.route("/steamLogin", methods = ["GET"])
 @openID.loginhandler
@@ -39,14 +35,13 @@ def logout():
     #pop from session
     return request.referrer #https://stackoverflow.com/questions/14277067/redirect-back-in-flask
 
-#-----------------
-
 @app.route("/gameplay")
 @cross_origin()
 def getGameplayJson():
-    return get_champion_data()
+    return ChampionData.get_champion_data()
 
-# fix all below
+#-----------------
+
 @app.route('/player')
 @cross_origin()
 def getPlayer():

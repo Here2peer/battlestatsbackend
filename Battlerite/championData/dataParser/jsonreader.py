@@ -1,6 +1,5 @@
-import json
-from championData.dataParser.descriptionParser import parse_description
-import os
+from Battlerite.championData.dataParser.descriptionParser import parse_description
+import json, os
 
 def combine_json_data():
     script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in

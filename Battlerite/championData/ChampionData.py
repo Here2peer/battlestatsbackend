@@ -1,13 +1,8 @@
 # creates a newgameplay.json with all the data you need
-import json
-
-import os
-
+from Battlerite.championData.dataParser.inireader import read_and_convert
+from Battlerite.championData.dataParser.jsonreader import combine_json_data
 from flask import jsonify
-
-from championData.dataParser.inireader import read_and_convert
-from championData.dataParser.jsonreader import combine_json_data
-
+import json, os
 
 def update_champion_data():
     read_and_convert()
