@@ -8,6 +8,6 @@ with open('cfg/ApiKeys.cfg', 'r') as f:
 url = "https://api.dc01.gamelockerapp.com/shards/global/"
 #global header
 header = {
-    "Authorization": keys['Battlerite'],
+    "Authorization": keys['Battlerite'].strip(),
     "Accept": "application/vnd.api+json"
 }
