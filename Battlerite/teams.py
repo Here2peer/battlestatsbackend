@@ -1,5 +1,5 @@
 import requests, json
-import Battlerite.players
+from Battlerite import players
 from cfg.cfg import url, header
 
 def getURL(player):

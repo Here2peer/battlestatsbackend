@@ -1,5 +1,5 @@
 import requests, json
-import Battlerite.players
+from Battlerite import players
 from cfg.cfg import url, header
 
 url = url + "matches" #url = "https://api.dc01.gamelockerapp.com/shards/global/matches"
@@ -11,8 +11,9 @@ url = url + "matches" #url = "https://api.dc01.gamelockerapp.com/shards/global/m
 
 def getMatchesInfo(playerName):
     query = {
-        "sort": "createdAt",
-        "filter[playerIds]": players.getPlayerId(playerName)
+        "sort": "-createdAt",
+        "filter[playerIds]": players.getPlayerId(playerName),
+        "page[limit]": "1"
     }
 
     request = requests.get(url, headers=header, params=query)
@@ -21,7 +22,7 @@ def getMatchesInfo(playerName):
 
 def getMatchesJson(playerName):
     query = {
-        "sort": "createdAt",
+        "sort": "-createdAt",
         "filter[playerName]":  players.getPlayerId(playerName)
     }
 
