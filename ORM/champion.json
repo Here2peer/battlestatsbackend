@@ -1,0 +1,149 @@
+{
+  "characters": [
+    {
+      "icon": "83cd4bf3be6455f4cbbf803035b6d0fe",
+      "name": "Lucie",
+      "description": "Lucie is a diverse contender who knows which brew makes you choke, heal or flee in fear. The arena has become her new playground for wild experiments.",
+      "ability1": {
+        "icon": "4899e76e427dea247935b02bae3d3587",
+        "icon128": "948d85cf5c36f504f8b964acde19ed3e",
+        "name": "Toxic Bolt",
+        "description": "Projectile attack that deals 12 damage and inflicts Toxic."
+      },
+      "ability2": {
+        "icon": "3636e4f3b297935458290b4f9c76d23e",
+        "icon128": "940ddc80c69eead49bfc8a5066a9afc5",
+        "name": "Healing Potion",
+        "description": "Throw a potion to target location that heals the nearest ally for 14 health and applies Revitalize."
+      },
+      "ability3": {
+        "icon": "4556c9c71bc74a54ca958e02c1ed7528",
+        "icon128": "46e144a65c818c04eb3d00a21cf513b3",
+        "name": "Barrier",
+        "description": "Grant a Shield to target ally. It absorbs up to 50 damage for 2.5s."
+      },
+      "ability4": {
+        "icon": "a9dc7d55702986c49b91219b77ffd6b1",
+        "icon128": "d0c4449b33eef2e4ca2cfa8900910041",
+        "name": "Clarity Potion",
+        "description": "Throw a cleansing potion to target location, knocking nearby enemies away. The impact removes positive effects from enemies and negative effects from allies."
+      },
+      "ability5": {
+        "icon": "3cefd4039dc6af0419b780eba83583a6",
+        "icon128": "e45c9dbf4c532ca4c8c8dfca14798771",
+        "name": "Panic Flask",
+        "description": "Throw a chemical flask that deals 12 damage and inflicts Panic."
+      },
+      "ability6": {
+        "icon": "fdbfef40265a775498db0443fa145fb6",
+        "icon128": "470a917c1ac62c04ea45acc6a35c5f73",
+        "name": "Roll",
+        "description": "Roll forward and avoid incoming attacks."
+      },
+      "ability7": {
+        "icon": "7b4f46efc6085bc43a7d79bba0d12c7d",
+        "icon128": "d2c956821eb75a44e98ec7c47710a0cf",
+        "name": "Crippling Goo",
+        "description": "Throw a vial of mixed chemicals to target location that deals 18 damage and inflicts Snare on impact. It covers the ground in a crippling goo that deals 80 damage and slows enemies over the duration."
+      },
+      "battlerites": [
+        {
+          "icon": "948d85cf5c36f504f8b964acde19ed3e",
+          "name": "Weakening Toxin",
+          "abilitySlot": "0",
+          "description": "Toxic reduces incoming healing by 20% and outgoing damage by 10%."
+        },
+        {
+          "icon": "948d85cf5c36f504f8b964acde19ed3e",
+          "name": "Vampiric Toxin",
+          "abilitySlot": "0",
+          "description": "Toxic heals you for 9 health over 6s."
+        },
+        {
+          "icon": "940ddc80c69eead49bfc8a5066a9afc5",
+          "name": "Stimulant",
+          "abilitySlot": "1",
+          "description": "Revitalize increases damage output by 12%."
+        },
+        {
+          "icon": "940ddc80c69eead49bfc8a5066a9afc5",
+          "name": "Companion Potion",
+          "abilitySlot": "1",
+          "description": "Healing Potion heals other allies for 4 bonus health."
+        },
+        {
+          "icon": "46e144a65c818c04eb3d00a21cf513b3",
+          "name": "Alacrity",
+          "abilitySlot": "2",
+          "description": "Barrier increases movement speed by 33%."
+        },
+        {
+          "icon": "46e144a65c818c04eb3d00a21cf513b3",
+          "name": "Blast Shield",
+          "abilitySlot": "2",
+          "description": "Applying Barrier causes a shockwave, dealing 10 damage to nearby enemies and knocking them back."
+        },
+        {
+          "icon": "46e144a65c818c04eb3d00a21cf513b3",
+          "name": "Siege Barrier",
+          "abilitySlot": "2",
+          "description": "Barrier absorbs 8 bonus damage and duration increases by 0.5s."
+        },
+        {
+          "icon": "d0c4449b33eef2e4ca2cfa8900910041",
+          "name": "Adhesive Component",
+          "abilitySlot": "3",
+          "description": "Clarity Potion inflicts 30% Snare for 3s."
+        },
+        {
+          "icon": "d0c4449b33eef2e4ca2cfa8900910041",
+          "name": "Potency",
+          "abilitySlot": "3",
+          "description": "Clarity Potion heals 10 health when removing a debuff and deals 10 damage when removing a buff."
+        },
+        {
+          "icon": "e45c9dbf4c532ca4c8c8dfca14798771",
+          "name": "Hysteria",
+          "abilitySlot": "4",
+          "description": "Reduces the cooldown of Panic Flask by 1.5s. Direct hits further reduce the cooldown by 1.5s."
+        },
+        {
+          "icon": "e45c9dbf4c532ca4c8c8dfca14798771",
+          "name": "Chaos",
+          "abilitySlot": "4",
+          "description": "Panic Flask explodes upon hitting an enemy, dealing 8 damage and inflicting Lesser Panic to other nearby enemies."
+        },
+        {
+          "icon": "e45c9dbf4c532ca4c8c8dfca14798771",
+          "name": "Deadly Brew",
+          "abilitySlot": "4",
+          "description": "Panic Flask deals 10 bonus damage."
+        },
+        {
+          "icon": "470a917c1ac62c04ea45acc6a35c5f73",
+          "name": "Swift Roll",
+          "abilitySlot": "5",
+          "description": "Roll increases movement speed by 33% for 2.5s. Reduces cooldown of Roll by 3s."
+        },
+        {
+          "icon": "d2c956821eb75a44e98ec7c47710a0cf",
+          "name": "Sticky Goo",
+          "abilitySlot": "6",
+          "description": "Increases Snare factor of Crippling Goo from 35% to 60%."
+        },
+        {
+          "icon": "bbe2697d5982f654d8dab2223790bd77",
+          "name": "Agility",
+          "abilitySlot": "999",
+          "description": "Increases movement speed by 10%."
+        },
+        {
+          "icon": "d0c4449b33eef2e4ca2cfa8900910041",
+          "name": "Dynamic Solution",
+          "abilitySlot": "3",
+          "description": "Increases max range and radius of Clarity Potion by 10%."
+        }
+      ]
+    }
+  ]
+}
