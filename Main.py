@@ -35,10 +35,23 @@ def logout():
     #pop from session
     return request.referrer #https://stackoverflow.com/questions/14277067/redirect-back-in-flask
 
-@app.route("/gameplay")
+@app.route("/allChampionData")
 @cross_origin()
-def getGameplayJson():
-    return ChampionData.get_champion_data()
+def getAllChampionData():
+    return ChampionData.get_champion_data() # possibly intergrate with function below
+
+@app.route("/championData/<champion>")
+@cross_origin()
+def getChampionData(champion):
+    return ChampionData.get_champion_data() #work out
+
+@app.route("/tournament/<tournamentID>")
+def getTournament():
+    return "needs work", 204
+
+@app.route("tournament/<players>", methods = ["POST"])
+def createTournament():
+    return "needs work", 204
 
 #-----------------
 
