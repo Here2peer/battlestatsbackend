@@ -11,21 +11,44 @@ Session = sessionmaker()
 conn = Session()
 
 class Tournament(Base):
-    __tablename__ = 'Tournament'
+    __tablename__ = "Tournament"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    tourID = Column(Integer)
+    tournamentID = Column(Integer, primary_key=True, autoincrement=True)
+    teamID = Column(Integer)
+    status = Column(varchar(64))
 
-    def __repr__(self):
-        return "<Tournament(tourID='%s')" % (self.tourID)
+class Match(Base):
+    __tablename__ = "Match"
+
+    matchID = Column(Integer, primary_key=True)
+    winner = Column(varchar(64))
+    teamOne = Column(varchar(64))
+    teamTwo = Column(varchar(64))
 
 class Champion(Base):
     __tablename__ = "Champion"
 
-    
+        name = Column(varchar(64), primary_key=True)
+        icon = Column(varchar(64))
+        description = Column(varchar(64))
 
-    def __repr__(self):
-        return "" % ()
+class Ability(Base):
+    __tablename__ = "Ability"
+
+    championName = Column(varchar(64), primary_key=True)
+    icon = Column(varchar(64))
+    icon128 = Column(varchar(64))
+    name = Column(varchar(64), primary_key=True)
+    description = Column(varchar(64))
+
+class Battlerite(Base):
+        __tablename__ = "Battlerite"
+
+        championName = Column(varchar(64), primary_key=True)
+        icon = Column(varchar(64))
+        name = Column(varchar(64), primary_key=True)
+        abilitySlot = Column(varchar(64))
+        description = Column(varchar(64))
 
     #id	Integer, auto_increment, primary key
     #filename	varchar(64)
