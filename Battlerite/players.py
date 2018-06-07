@@ -1,6 +1,8 @@
 import requests, json
 from cfg.cfg import url, header
-url = url + "players" #url = "https://api.dc01.gamelockerapp.com/shards/global/players"
+
+url = url + "players"  # url = "https://api.dc01.gamelockerapp.com/shards/global/players"
+
 
 def getPlayerInfo(id, playerName):
     if id:
@@ -36,6 +38,7 @@ def getPlayerInfo(id, playerName):
 
     return request
 
+
 def getPlayerJson(playerName):
     query = {
         "filter[playerNames]": playerName,
@@ -45,6 +48,7 @@ def getPlayerJson(playerName):
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)
+
 
 def getPlayerId(playerName):
     playerId = getPlayerInfo(0, playerName)["data"][0]["id"]
