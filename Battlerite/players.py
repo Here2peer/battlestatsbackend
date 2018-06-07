@@ -34,7 +34,6 @@ def getPlayerInfo(id, playerName):
             failedjson.write(str(request.content))
         return json.load(open('dummyJsons/fakePLayer.json', 'r'))
 
-
     return request
 
 def getPlayerJson(playerName):
