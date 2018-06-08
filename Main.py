@@ -5,9 +5,8 @@ from Battlerite.championData import ChampionData
 from Battlerite import teams, players, matches
 from Steam import Steam
 
-from mongoengine import *
 from Database.MongoDB import mongodb
-from Database.ORM.mongoORM import *
+from Database.ORM import champion, tournament
 
 app = Flask(__name__)
 openID = OpenID(app)
@@ -21,8 +20,8 @@ db = mongodb.initialise_database(app)
 
 @app.route('/dbtest')
 def dbtest():
-
-    return 'hello world'
+    champion.createChampion('bla', 'bla', 'ucanseeitworks', [], [])
+    return champion.getChampion('bla').description
 
 
 def getInfo(steamID):

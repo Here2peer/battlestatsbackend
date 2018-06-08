@@ -6,7 +6,7 @@ class Ability(Document):
     description = StringField(max_length=250)
 
 
-class Battlerites(document):
+class Battlerites(Document):
     icon = StringField(max_length=150)
     name = StringField(max_length=50)
     abilitySlot = IntField
@@ -35,7 +35,8 @@ def createChampion(cicon, cname, cdescr, abilities, cbattlerites):
 #retrieve a champion from the database
 def getChampion(championName):
     for champion in Champion.objects(name = championName):
-        return champion
+        sjempion = champion
+    return sjempion
 
 
 def getAllChampions():
