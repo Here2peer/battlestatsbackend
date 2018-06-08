@@ -2,7 +2,7 @@ from flask import Flask, redirect, request, jsonify # session?
 from flask_openid import OpenID
 from flask_cors import cross_origin
 from Battlerite.championData import ChampionData
-from Battlerite import teams, players, matches
+from Battlerite import teams, players, matches, telemetry
 from cfg.cfg import keys
 from Steam import Steam
 import ORM
@@ -93,3 +93,8 @@ def getTeam():
         player_name = "7854"
         id = 1
     return jsonify(teams.getTeamInfo(id, player_name))
+
+@app.route('/telemetry')
+@cross_origin()
+def getTelemetry():
+    return telemetry.getWins()

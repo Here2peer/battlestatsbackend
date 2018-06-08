@@ -26,3 +26,49 @@ def getTelemetryJson():
     r = requests.get(url, headers=header, params=query)
     f = r.json()
     return json.dumps(f)
+
+def getKD():
+    telemetry = getTelemetryInfo()
+    matchStandings = []
+
+    for asset in telemetry:
+       if asset["type"] == "Structures.RoundFinishedEvent":
+            matchStandings.append(asset)
+
+    matchUserIDs = {}
+
+    for player in matchStandings[0]["dataObject"]["playerStats"]:
+        matchUserIDs[player["userID"]] = {"kills": 1, "deaths": 1, "KD": 1}
+
+    for asset in matchStandings:
+        for playerStats in asset["dataObject"]["playerStats"]:
+            playerid = playerStats['userID']
+            matchUserIDs[playerid]["kills"] = matchUserIDs[playerid]["kills"] + int(playerStats["kills"])
+            matchUserIDs[playerid]["deaths"] = matchUserIDs[playerid]["deaths"] + int(playerStats["deaths"])
+            if playerStats["deaths"] == 0:
+                matchUserIDs[playerid]["KD"] = "∞"
+            else:
+                matchUserIDs[playerid]["KD"] = round(matchUserIDs[playerid]["kills"] / matchUserIDs[playerid]["deaths"], 1)
+
+    return json.dumps(matchUserIDs)
+
+def getWins():
+
+    telemetry = getTelemetryInfo()
+    team1 = 0
+    team2 = 0
+
+
+
+    for asset in telemetry:
+       if asset["type"] == "Structures.RoundFinishedEvent":
+
+            if asset["dataObject"]["winningTeam"] == 1:
+                team1 = team1 + 1
+            else:
+                team2 = team2 + 1
+
+    if team1 > team2:
+        return "1"
+    else:
+        return "2"
