@@ -21,7 +21,7 @@ app.config.update(
 def getInfo(steamID):
     return Steam.getInfo(steamID)
 
-@app.route("/steamLogin", methods = ["GET"])
+@app.route("/steam", methods = ["GET"])
 @openID.loginhandler
 def login():
     return openID.try_login('http://steamcommunity.com/openid')

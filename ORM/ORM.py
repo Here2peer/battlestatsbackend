@@ -1,6 +1,5 @@
 import json, datetime
 from sqlalchemy import *
-
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -15,44 +14,44 @@ class Tournament(Base):
 
     tournamentID = Column(Integer, primary_key=True, autoincrement=True)
     teamID = Column(Integer)
-    status = Column(varchar(64))
+    status = Column(VARCHAR(64))
 
 class Match(Base):
     __tablename__ = "Match"
 
     matchID = Column(Integer, primary_key=True)
-    winner = Column(varchar(64))
-    teamOne = Column(varchar(64))
-    teamTwo = Column(varchar(64))
+    winner = Column(VARCHAR(64))
+    teamOne = Column(VARCHAR(64))
+    teamTwo = Column(VARCHAR(64))
 
 class Champion(Base):
     __tablename__ = "Champion"
 
-        name = Column(varchar(64), primary_key=True)
-        icon = Column(varchar(64))
-        description = Column(varchar(64))
+    name = Column(VARCHAR(64), primary_key=True)
+    icon = Column(VARCHAR(64))
+    description = Column(VARCHAR(64))
 
 class Ability(Base):
     __tablename__ = "Ability"
 
-    championName = Column(varchar(64), primary_key=True)
-    icon = Column(varchar(64))
-    icon128 = Column(varchar(64))
-    name = Column(varchar(64), primary_key=True)
-    description = Column(varchar(64))
+    championName = Column(VARCHAR(64), primary_key=True)
+    icon = Column(VARCHAR(64))
+    icon128 = Column(VARCHAR(64))
+    name = Column(VARCHAR(64), primary_key=True)
+    description = Column(VARCHAR(64))
 
 class Battlerite(Base):
         __tablename__ = "Battlerite"
 
-        championName = Column(varchar(64), primary_key=True)
-        icon = Column(varchar(64))
-        name = Column(varchar(64), primary_key=True)
-        abilitySlot = Column(varchar(64))
-        description = Column(varchar(64))
+        championName = Column(VARCHAR(64), primary_key=True)
+        icon = Column(VARCHAR(64))
+        name = Column(VARCHAR(64), primary_key=True)
+        abilitySlot = Column(VARCHAR(64))
+        description = Column(VARCHAR(64))
 
     #id	Integer, auto_increment, primary key
-    #filename	varchar(64)
-    #title	varchar(64)
+    #filename	VARCHAR(64)
+    #title	VARCHAR(64)
     #date	datetime
     #longitude	float
     #latitude	float
@@ -67,6 +66,6 @@ class DatetimeEncoder(json.JSONEncoder):
         elif isinstance(obj, datetime.timedelta):
             return (datetime.datetime.min + obj).time().isoformat()
         else:
-            return super(DateTimeEncoder, self).default(obj)
+            return super(DatetimeEncoder, self).default(obj)
 
 #Base.metadata.create_all(conn)
