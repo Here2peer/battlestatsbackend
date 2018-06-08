@@ -9,6 +9,7 @@ Base = declarative_base()
 Session = sessionmaker()
 conn = Session()
 
+
 class Tournament(Base):
     __tablename__ = "Tournament"
 

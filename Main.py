@@ -3,11 +3,11 @@ from flask_openid import OpenID
 from flask_cors import cross_origin
 from Battlerite.championData import ChampionData
 from Battlerite import teams, players, matches
-from cfg.cfg import keys
 from Steam import Steam
-import ORM
-# import requests, json, urllib3, re?
-# from urllib import parse?
+
+from mongoengine import *
+from Database.MongoDB import mongodb
+from Database.ORM.mongoORM import *
 
 app = Flask(__name__)
 openID = OpenID(app)
@@ -17,6 +17,14 @@ app.config.update(
     DEBUG = True,
     TESTING = True
 )
+db = mongodb.initialise_database(app)
+
+@app.route('/dbtest')
+def dbtest():
+    for champion in Champion.objects:
+        print(champion.name)
+    return 'hello world'
+
 
 def getInfo(steamID):
     return Steam.getInfo(steamID)
