@@ -16,7 +16,6 @@ def getPlayerInfo(id, playerName):
             "page[limit]": "3"
         }
     request = requests.get(url, headers=header, params=query)
-    return request.json()
     try:
         request = request.json()
         for player in request['data']:
@@ -33,9 +32,9 @@ def getPlayerInfo(id, playerName):
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
         print(str(request.content))
-        with open('dummyJsons/failed.txt', 'w') as failedjson:
+        with open('Battlerite/dummyJsons/failed.txt', 'w') as failedjson:
             failedjson.write(str(request.content))
-        return json.load(open('dummyJsons/fakePLayer.json', 'r'))
+        return json.load(open('Battlerite/dummyJsons/fakePLayer.json', 'r'))
 
     return request
 

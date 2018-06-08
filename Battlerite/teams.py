@@ -8,7 +8,8 @@ def getTeamInfo(id, playerName):
         playerName = players.getPlayerId(playerName)
 
     query = {
-        "tag[playerIds]": playerName
+        "tag[playerIds]": playerName,
+        "tag[season]": 6
     }
 
     request = requests.get(url, headers=header, params=query)
@@ -18,9 +19,9 @@ def getTeamInfo(id, playerName):
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
         print('request: ' + str(request.content))
-        with open('dummyJsons/failed.txt', 'wb') as failedjson:
+        with open('Battlerite/dummyJsons/failed.txt', 'wb') as failedjson:
             failedjson.write(request.content)
-        return json.load(open('dummyJsons/faketeam.json', 'r'))
+        return json.load(open('Battlerite/dummyJsons/faketeam.json', 'r'))
     try:
         team_data = request["data"]
         return insertTeamMemberNames(team_data)
