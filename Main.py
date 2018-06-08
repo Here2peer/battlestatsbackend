@@ -21,8 +21,7 @@ db = mongodb.initialise_database(app)
 
 @app.route('/dbtest')
 def dbtest():
-    for champion in Champion.objects:
-        print(champion.name)
+
     return 'hello world'
 
 
