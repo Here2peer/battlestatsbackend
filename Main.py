@@ -59,7 +59,7 @@ def createTournament():
 @app.route('/player')
 @cross_origin()
 def getPlayer():
-    id = 0
+    id = 0                              # todo parse args in method
     if "id" in request.args.keys():
         if request.args.get('id') == "true":
             id = 1
@@ -82,8 +82,14 @@ def getMatch():
 @app.route('/team')
 @cross_origin()
 def getTeam():
+    id = 0
+    if "id" in request.args.keys():
+        if request.args.get('id') == "true":
+            id = 1
+
     if "player" in request.args.keys():
         player_name = request.args.get("player").replace('"', '')
     else:
-        player_name = "Arkdn"
-    return jsonify(teams.getTeamInfo(player_name))
+        player_name = "7854"
+        id = 1
+    return jsonify(teams.getTeamInfo(id, player_name))

@@ -1,32 +1,18 @@
 import requests, json
 from Battlerite import players
 from cfg.cfg import url, header
+url = url + 'teams'
 
-def getURL(player):
-    playerString = ""
-    for pl in player:
-        playerString += players.getPlayerId(pl)
-        if pl != player[len(player) - 1]:
-            playerString += ","
-    print(playerString)
-    url = "https://api.dc01.gamelockerapp.com/shards/global/teams?tag[season]=2&tag[playerIds]=" + playerString
-    print(url)
-    return url
-
-#header = {
-#    "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3NzMxMGZjMC0yYjc1LTAxMzYtYjIyYi0wYTU4NjQ2MGI5M2QiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTI0NzQzMjI1LCJwdWIiOiJzdHVubG9jay1zdHVkaW9zIiwidGl0bGUiOiJiYXR0bGVyaXRlIiwiYXBwIjoiYmF0dGxlcml0ZS1jb21wYW5pb24tY2EzZmRmMTItODYxOS00ZDIzLWI3YWYtN2MyMWYzOGRkMjdlIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.hILjtng403GUUZN8cLqdsCp8R6qnESkoZOeLgRcvvx4",
-#    "Accept": "application/vnd.api+json"
-#}
-
-def getTeamInfo(*player):
-
-    url = getURL(player)
+def getTeamInfo(id, playerName):
+    if not id:
+        playerName = players.getPlayerId(playerName)
 
     query = {
-        "tag[playerIds]": "none"
+        "tag[playerIds]": playerName
     }
 
     request = requests.get(url, headers=header, params=query)
+
     try:
         request = request.json()
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
@@ -35,9 +21,11 @@ def getTeamInfo(*player):
         with open('dummyJsons/failed.txt', 'wb') as failedjson:
             failedjson.write(request.content)
         return json.load(open('dummyJsons/faketeam.json', 'r'))
-
-    team_data = request["data"]
-    return insertTeamMemberNames(team_data)
+    try:
+        team_data = request["data"]
+        return insertTeamMemberNames(team_data)
+    except KeyError:
+        return request
 
 
 # create a dictionary for each team, where for each player in the team playerID is matched with playerName
@@ -98,13 +86,3 @@ def collect_team_member_ids(team_data):
     if last_id_string[-1] == ',':  # remove last comma if present
         all_teammates[int((player_to_be_processed - 2) / 6)] = last_id_string[:-1]
     return all_teammates
-
-def getTeamJson(*player):
-
-    url = getURL(player)
-    query = {
-        "tag[playerIds]": "none"
-    }
-    r = requests.get(url, headers=header, params=query)
-    f = r.json()
-    return json.dumps(f)
