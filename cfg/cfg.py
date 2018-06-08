@@ -5,7 +5,7 @@ with open('cfg/ApiKeys.cfg', 'r') as f:
         keys[key] = value
 
 #global url
-url = "https://api.dc01.gamelockerapp.com/shards/global/"
+url = "https://api.developer.battlerite.com/shards/global/"
 #global header
 header = {
     "Authorization": keys['Battlerite'].strip(),

@@ -16,6 +16,7 @@ def getPlayerInfo(id, playerName):
             "page[limit]": "3"
         }
     request = requests.get(url, headers=header, params=query)
+    return request.json()
     try:
         request = request.json()
         for player in request['data']:
