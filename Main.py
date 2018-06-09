@@ -77,7 +77,7 @@ def getMatch():
         player_name = request.args.get("player").replace('"', '')
     else:
         player_name = "Arkdn"
-    return jsonify(matches.getMatchesInfo(player_name))
+    return jsonify(matches.getLastThreeMatches(player_name))
 
 @app.route('/team')
 @cross_origin()
@@ -97,4 +97,9 @@ def getTeam():
 @app.route('/telemetry')
 @cross_origin()
 def getTelemetry():
-    return telemetry.getWins()
+    return telemetry.getKD()
+
+@app.route('/win')
+@cross_origin()
+def getWin():
+    return matches.getWinningTeam("Arkdn")

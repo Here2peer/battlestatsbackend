@@ -20,6 +20,17 @@ def getMatchesInfo(playerName):
     request = request.json()
     return request
 
+def getLastThreeMatches(playerName):
+    query = {
+        "sort": "-createdAt",
+        "filter[playerIds]": players.getPlayerId(playerName),
+        "page[limit]": "3"
+    }
+
+    request = requests.get(url, headers=header, params=query)
+    request = request.json()
+    return request
+
 def getMatchesJson(playerName):
     query = {
         "sort": "-createdAt",
@@ -46,3 +57,73 @@ def getPlayerMatches():
     for assetje in poep:
         if assetje == assetIdTest:
             return str(poep.index(assetje))
+
+def getWinningTeam(playerName):
+
+    matches = getLastThreeMatches(playerName)
+    IDs1 = []
+    IDs2 = []
+    IDs3 = []
+
+    team1score = 0
+    team2score = 0
+
+    team1 = 0
+    team2 = 0
+
+    match1 = matches["data"][0]
+    match2 = matches["data"][1]
+    match3 = matches["data"][1]
+
+    for round in match1["relationships"]["rounds"]["data"]:
+         IDs1.append(round["id"])
+
+    for round in match2["relationships"]["rounds"]["data"]:
+         IDs2.append(round["id"])
+
+    for round in match3["relationships"]["rounds"]["data"]:
+         IDs3.append(round["id"])
+
+    for ID in IDs1:
+        for round in matches["included"]:
+            if round["type"] == "round" and round["id"] == ID:
+                if round["attributes"]["stats"]["winningTeam"] == 1:
+                    team1 = team1 + 1
+                else:
+                    team2 = team2 + 1
+
+            if team1 > team2:
+                team1score = team1score + 1
+            else:
+                team2score = team2score + 1
+
+    for ID in IDs2:
+        for round in matches["included"]:
+            if round["type"] == "round" and round["id"] == ID:
+                if round["attributes"]["stats"]["winningTeam"] == 1:
+                    team1 = team1 + 1
+                else:
+                    team2 = team2 + 1
+
+            if team1 > team2:
+                team1score = team1score + 1
+            else:
+                team2score = team2score + 1
+
+    for ID in IDs3:
+        for round in matches["included"]:
+            if round["type"] == "round" and round["id"] == ID:
+                if round["attributes"]["stats"]["winningTeam"] == 1:
+                    team1 = team1 + 1
+                else:
+                    team2 = team2 + 1
+
+            if team1 > team2:
+                team1score = team1score + 1
+            else:
+                team2score = team2score + 1
+
+    if team1score > team2score:
+        return "1"
+    else:
+        return "2"

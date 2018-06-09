@@ -58,8 +58,6 @@ def getWins():
     team1 = 0
     team2 = 0
 
-
-
     for asset in telemetry:
        if asset["type"] == "Structures.RoundFinishedEvent":
 
