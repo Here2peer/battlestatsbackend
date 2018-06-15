@@ -9,11 +9,11 @@ url = url + "matches" #url = "https://api.dc01.gamelockerapp.com/shards/global/m
 #    "Accept": "application/vnd.api+json"
 #}
 
-def getMatchesInfo(playerName):
+def getMatchesInfo(playerName, limit):
     query = {
         "sort": "-createdAt",
         "filter[playerIds]": players.getPlayerId(playerName),
-        "page[limit]": "3"
+        "page[limit]": limit
     }
 
     request = requests.get(url, headers=header, params=query)
@@ -21,19 +21,9 @@ def getMatchesInfo(playerName):
     return request
 
 
-def getMatchesJson(playerName):
-    query = {
-        "sort": "-createdAt",
-        "filter[playerName]":  players.getPlayerId(playerName)
-    }
-
-    r = requests.get(url, headers=header, params=query)
-    f = r.json()
-    return json.dumps(f)
-
-
+# returns a summary of the last 3 matches of a player
 def getMatchSummary(playerName):
-    match_info = parse_matches_info(getMatchesInfo(playerName))
+    match_info = parse_matches_info(getMatchesInfo(playerName, 3))
     matches = match_info[0]
     rosters = match_info[1]
     player_ids = match_info[2]
@@ -52,6 +42,9 @@ def getMatchSummary(playerName):
         new_matches.append(new_match)
     return new_matches
 
+
+# retrieves all matches, rosters and player ids from a match json from the battlerite api
+# a roster is the representation of a team in a single match
 def parse_matches_info(match_list):
     matches = []
     rosters = {}
