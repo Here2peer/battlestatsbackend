@@ -13,23 +13,13 @@ def getMatchesInfo(playerName):
     query = {
         "sort": "-createdAt",
         "filter[playerIds]": players.getPlayerId(playerName),
-        "page[limit]": "1"
-    }
-
-    request = requests.get(url, headers=header, params=query)
-    request = request.json()
-    return request
-
-def getLastThreeMatches(playerName):
-    query = {
-        "sort": "-createdAt",
-        "filter[playerIds]": players.getPlayerId(playerName),
         "page[limit]": "3"
     }
 
     request = requests.get(url, headers=header, params=query)
     request = request.json()
     return request
+
 
 def getMatchesJson(playerName):
     query = {
@@ -42,88 +32,54 @@ def getMatchesJson(playerName):
     return json.dumps(f)
 
 
-def getPlayerMatches():
+def getTeams(playerName):
+    match_info = parse_matches_info(getMatchesInfo(playerName))
+    matches = match_info[0]
+    rosters = match_info[1]
+    player_ids = match_info[2]
 
-    assetIdTest = "288039dd-4961-11e8-a3c8-0a586460b906"
-    assetID = getMatchesInfo()["included"]
-    assetsArray = []
+    new_matches = []
+    for match in matches:
+        new_match = {}
+        new_match['teams'] = []
+        for roster in match['rosters']:
+            new_team = {}
+            new_team['won'] = rosters[roster]['won']
+            new_team['players']=[]
+            for roster_player_id in rosters[roster]['players']:
+                new_team['players'].append(player_ids[roster_player_id])
+            new_match['teams'].append(new_team)
+        new_matches.append(new_match)
+    return new_matches
 
-    for asset in assetID:
-        if asset["type"] == "asset":
-            assetsArray.append(asset["id"])
+def parse_matches_info(match_list):
+    matches = []
+    rosters = {}
+    player_ids = {}
 
-    poep = assetsArray
+    for asset in match_list['data']:
+        if asset["type"] == "match":
+            match = {}
+            match['type'] = asset['type']
+            match['id'] = asset['id']
+            match['rosters'] = []
+            for roster in asset['relationships']['rosters']['data']:
+                match['rosters'].append(roster['id'])
+            matches.append(match)
 
-    for assetje in poep:
-        if assetje == assetIdTest:
-            return str(poep.index(assetje))
+    for asset in match_list["included"]:
+        if asset["type"] == "roster":
+            roster = {}
+            roster['type'] = asset['type']
+            roster['players'] = []
+            roster['won'] = asset['attributes']['won']
+            for participant in asset["relationships"]["participants"]["data"]:
+                roster['players'].append(participant["id"])
+            rosters[asset['id']] = roster
 
-def getWinningTeam(playerName):
+        elif asset["type"] == "participant":
+            roster_player_id = asset['id']
+            real_player_id = asset['relationships']['player']['data']['id']
+            player_ids[roster_player_id] = real_player_id
 
-    matches = getLastThreeMatches(playerName)
-    IDs1 = []
-    IDs2 = []
-    IDs3 = []
-
-    team1score = 0
-    team2score = 0
-
-    team1 = 0
-    team2 = 0
-
-    match1 = matches["data"][0]
-    match2 = matches["data"][1]
-    match3 = matches["data"][1]
-
-    for round in match1["relationships"]["rounds"]["data"]:
-         IDs1.append(round["id"])
-
-    for round in match2["relationships"]["rounds"]["data"]:
-         IDs2.append(round["id"])
-
-    for round in match3["relationships"]["rounds"]["data"]:
-         IDs3.append(round["id"])
-
-    for ID in IDs1:
-        for round in matches["included"]:
-            if round["type"] == "round" and round["id"] == ID:
-                if round["attributes"]["stats"]["winningTeam"] == 1:
-                    team1 = team1 + 1
-                else:
-                    team2 = team2 + 1
-
-            if team1 > team2:
-                team1score = team1score + 1
-            else:
-                team2score = team2score + 1
-
-    for ID in IDs2:
-        for round in matches["included"]:
-            if round["type"] == "round" and round["id"] == ID:
-                if round["attributes"]["stats"]["winningTeam"] == 1:
-                    team1 = team1 + 1
-                else:
-                    team2 = team2 + 1
-
-            if team1 > team2:
-                team1score = team1score + 1
-            else:
-                team2score = team2score + 1
-
-    for ID in IDs3:
-        for round in matches["included"]:
-            if round["type"] == "round" and round["id"] == ID:
-                if round["attributes"]["stats"]["winningTeam"] == 1:
-                    team1 = team1 + 1
-                else:
-                    team2 = team2 + 1
-
-            if team1 > team2:
-                team1score = team1score + 1
-            else:
-                team2score = team2score + 1
-
-    if team1score > team2score:
-        return "1"
-    else:
-        return "2"
+    return [matches, rosters, player_ids]
