@@ -32,7 +32,7 @@ def getMatchesJson(playerName):
     return json.dumps(f)
 
 
-def getTeams(playerName):
+def getMatchSummary(playerName):
     match_info = parse_matches_info(getMatchesInfo(playerName))
     matches = match_info[0]
     rosters = match_info[1]
