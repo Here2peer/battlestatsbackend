@@ -22,6 +22,7 @@ def getMatchesInfo(playerName, limit):
 
 
 # returns a summary of the last 3 matches of a player
+# newest matches are listed first
 def getMatchSummary(playerName):
     match_info = parse_matches_info(getMatchesInfo(playerName, 3))
     matches = match_info[0]
