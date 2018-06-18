@@ -58,8 +58,11 @@ def addTeam():
     p1 = request.data('p1')
     p2 = request.data('p2')
     p3 = request.data('p3')  # if it exists!!
+    id = ""
+    name = ""
+    tourney_id = request.data('tournamentID')
 
-    tournament.addTeam()
+    tournament.addTeam(tourney_id, id, name, p1, p2, p3)
 
 
 @app.route("/tournament/create", methods=["POST"])
