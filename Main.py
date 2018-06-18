@@ -5,7 +5,7 @@ from Battlerite import teams, players, matches, telemetry
 from Steam import Steam
 
 from Database.MongoDB import mongodb
-from Database.ORM import champion
+from Database.ORM import champion, tournament
 
 app = Flask(__name__)
 openID = OpenID(app)
@@ -43,6 +43,11 @@ def getTournament():
 @app.route("/tournament/<players>", methods = ["POST"])
 def createTournament():
     return "needs work", 204
+
+
+@app.route("/tournaments")
+def getTournaments():
+    return jsonify({'tournaments': tournament.get_all_tournaments()})
 
 
 @app.route('/player')

@@ -40,3 +40,10 @@ def createTournament(id, team_id, tstatus):
 def getTournament(id):
     for tournament in Tournament.objects(tournamentID=id):
         return tournament
+
+
+def get_all_tournaments():
+    tournaments = []
+    for tournament in Tournament.objects():
+        tournaments.append(tournament)
+    return tournaments
