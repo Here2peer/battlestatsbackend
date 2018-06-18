@@ -65,3 +65,10 @@ def addMatch(tourney_ID, match_ID, team_1, team_2, winning_team):
 def getTournament(id):
     for tournament in Tournament.objects(tournamentID=id):
         return tournament
+
+
+def get_all_tournaments():
+    tournaments = []
+    for tournament in Tournament.objects():
+        tournaments.append(tournament)
+    return tournaments
