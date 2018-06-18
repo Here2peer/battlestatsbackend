@@ -1,46 +1,52 @@
-from flask import Flask, redirect, request, jsonify # session?
+from flask import Flask, redirect, request, jsonify  # session?
 from flask_openid import OpenID
 from flask_cors import cross_origin
 from Battlerite import teams, players, matches, telemetry
 from Steam import Steam
 
 from Database.MongoDB import mongodb
-from Database.ORM import champion, tournament
+from Database.ORM import champion, tournament, test
 
 app = Flask(__name__)
 openID = OpenID(app)
 
 app.config.update(
-    SECRET_KEY = 'static',  # os.urandom(24), <-- can be used to use random keys(not api)
-    DEBUG = True,
-    TESTING = True
+    SECRET_KEY='static',  # os.urandom(24), <-- can be used to use random keys(not api)
+    DEBUG=True,
+    TESTING=True
 )
 db = mongodb.initialise_database(app)
+
 
 def getInfo(steamID):
     return Steam.getInfo(steamID)
 
-@app.route("/steam", methods = ["GET"])
+
+@app.route("/steam", methods=["GET"])
 @openID.loginhandler
 def login():
     return openID.try_login('http://steamcommunity.com/openid')
 
+
 @openID.after_login
 def after_login(response):
-    #save login
+    # save login
+    return response.json()
     return redirect(openID.get_next_url())
 
-@app.route("/logout")#add methods?
+
+@app.route("/logout")  # add methods?
 def logout():
-    #pop from session
-    return request.referrer #https://stackoverflow.com/questions/14277067/redirect-back-in-flask
+    # pop from session
+    return request.referrer  # https://stackoverflow.com/questions/14277067/redirect-back-in-flask
 
 
-@app.route("/tournament/<tournamentID>", methods = ['GET'])
+@app.route("/tournament/<tournamentID>", methods=['GET'])
 def getTournament():
     return "needs work", 204
 
-@app.route("/tournament/<players>", methods = ["POST"])
+
+@app.route("/tournament/<players>", methods=["POST"])
 def createTournament():
     return "needs work", 204
 
@@ -53,7 +59,7 @@ def getTournaments():
 @app.route('/player')
 @cross_origin()
 def getPlayer():
-    id = 0                              # todo parse args in method
+    id = 0  # todo parse args in method
     if "id" in request.args.keys():
         if request.args.get('id') == "true":
             id = 1
@@ -106,6 +112,11 @@ def getTeam():
         player_name = "7854"
         id = 1
     return jsonify(teams.getTeamInfo(id, player_name))
+
+
+@app.route('/test')
+def tests():
+    return test.do_test()
 
 
 @app.route('/telemetry')
