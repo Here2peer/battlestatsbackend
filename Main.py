@@ -3,7 +3,8 @@ from flask_openid import OpenID
 from flask_cors import cross_origin
 from Battlerite import teams, players, matches, telemetry
 from Steam import Steam
-
+import requests
+from cfg.cfg import keys
 from Database.MongoDB import mongodb
 from Database.ORM import champion, tournament, test
 
@@ -16,10 +17,17 @@ app.config.update(
     TESTING=True
 )
 db = mongodb.initialise_database(app)
+app.steamUser = None
 
 
 def getInfo(steamID):
     return Steam.getInfo(steamID)
+
+
+@app.route('/steamuser')
+@cross_origin()
+def steamuser():
+    return app.steamUser
 
 
 @app.route("/steam", methods=["GET"])
@@ -30,7 +38,10 @@ def login():
 
 @openID.after_login
 def after_login(response):
-    # save login
+    dataRaw = requests.get(
+        "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (
+        keys['Steam'].strip(), response.identity_url))
+    app.steamUser = dataRaw.text
     return redirect(openID.get_next_url())
 
 
