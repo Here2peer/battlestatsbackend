@@ -19,6 +19,9 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
+# ENV
+venv/
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries

@@ -6,6 +6,7 @@ from Steam import Steam
 
 from Database.MongoDB import mongodb
 from Database.ORM import champion
+from Database.ORM import tournament
 
 app = Flask(__name__)
 openID = OpenID(app)
@@ -35,14 +36,35 @@ def logout():
     #pop from session
     return request.referrer #https://stackoverflow.com/questions/14277067/redirect-back-in-flask
 
+#------------
 
-@app.route("/tournament/<tournamentID>", methods = ['GET'])
+@app.route("/tournament/tournamentList", methods = ['GET'])
+def getTournaments():
+    print(request.args.get('playerID'))
+    #TODO: Call to get tournaments list for playerID from database
+    return "Ok, playerID is " + request.args.get('playerID'), 200
+
+@app.route('/tournament', methods = ['GET'])
 def getTournament():
-    return "needs work", 204
+    tourney = jsonify(getTournament(request.args.get('tournamentID')))
+    return tourney, 200
 
-@app.route("/tournament/<players>", methods = ["POST"])
+@app.route('/tournament/signup', methods = ['PUT'])
+def addTeam():
+    p1 = request.data('p1')
+    p2 = request.data('p2')
+    p3 = request.data('p3') #if it exists!!
+
+    tournament.addTeam()
+
+@app.route("/tournament/create", methods = ["POST"])
 def createTournament():
-    return "needs work", 204
+    pID = request.data('playerID')
+    numTeams = request.data('numTeams')
+    tournament.createTournament(pID, numTeams)
+    return "Operation succesfull", 201
+
+#------------
 
 
 @app.route('/player')
