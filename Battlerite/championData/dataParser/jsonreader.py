@@ -2,7 +2,7 @@ from Battlerite.championData.dataParser.descriptionParser import parse_descripti
 import json, os
 
 def combine_json_data():
-    script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
     newgameplay = []
     # combines the layout of gameplay.json with the data from english.ini
     with open(os.path.join(script_dir, "data/gameplay.json"), "r") as insfile:

@@ -214,6 +214,7 @@
       "type": "participant"
     },
     {
+
       "attributes": {
         "shardId": "global",
         "stats": {
@@ -484,3 +485,4 @@
   },
   "meta": {}
 }
+// data[0]'['relationships']['rosters']

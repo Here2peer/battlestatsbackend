@@ -1,24 +1,26 @@
 import requests, json
 from cfg.cfg import url, header
+from Database.ORM import player as player_base
 
 url = url + "players"  # url = "https://api.dc01.gamelockerapp.com/shards/global/players"
 
 
-def getPlayerInfo(id, playerName):
+def getPlayerInfo(id, playerName, list):
     if id:
         query = {
             "filter[playerIds]": playerName,
-            "page[limit]": "3"
+            "page[limit]": "6"
         }
     else:
         query = {
             "filter[playerNames]": playerName,
-            "page[limit]": "3"
+            "page[limit]": "6"
         }
     request = requests.get(url, headers=header, params=query)
     try:
         request = request.json()
         for player in request['data']:
+            player_base.update_player(player['attributes']['name'], player['id'])
             custom_stats = {}
             stats = player['attributes']['stats']
             time_played = int(stats['8'])
@@ -28,7 +30,6 @@ def getPlayerInfo(id, playerName):
             custom_stats['timePlayed'] = str(hours_played) + "h"
             custom_stats['winRate'] = str(round(wins / (wins + losses) * 100.0, 1)) + '%'
             player['attributes']['customstats'] = custom_stats
-
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
         print(str(request.content))
@@ -37,6 +38,10 @@ def getPlayerInfo(id, playerName):
         return json.load(open('Battlerite/dummyJsons/fakePLayer.json', 'r'))
 
     return request
+
+
+def getAllPlayers():
+    return player_base.getAllPlayers()
 
 
 def getPlayerJson(playerName):
@@ -50,6 +55,23 @@ def getPlayerJson(playerName):
     return json.dumps(f)
 
 
+# get a player id by its battlerite name
 def getPlayerId(playerName):
-    playerId = getPlayerInfo(0, playerName)["data"][0]["id"]
+    player = player_base.get_player_by_name(playerName)
+    if player is not None:
+        if player.battlerite_id != -1:
+            return player.battlerite_id
+    playerId = getPlayerInfo(0, playerName, False)["data"][0]["id"]
     return playerId
+
+
+# get a player name by its battlerite id
+def getPlayerName(id):
+    player = player_base.get_player_by_id(id)
+    if player is not None:
+        if player.battlerite_name != 'ERROR: player not found':
+            if player.battlerite_name == 'Error: Api overloaded':
+                print('trying battlerite api to get oplayername')
+                return getPlayerInfo(1, id, False)["data"][0]["attributes"]['name']
+            return player.battlerite_name
+    return getPlayerInfo(1, id, False)["data"][0]["attributes"]['name']

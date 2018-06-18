@@ -36,7 +36,7 @@ def insertTeamMemberNames(team_data):
     all_teammates_jsons = []
     for id_list in all_teammates:  # for each unique team member fetch player info in one large dictionary
         if id_list != '':
-            all_teammates_jsons.append(players.getPlayerInfo(1, id_list))
+            all_teammates_jsons.append(players.getPlayerInfo(1, id_list, True))
 
     all_members = {}
     for playerData in all_teammates_jsons:  # for each player match id with name
