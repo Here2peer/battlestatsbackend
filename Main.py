@@ -71,7 +71,7 @@ def createTournament():
 
 
 @app.route("/tournaments")
-def getTournaments():
+def getTournamentsss():
     return jsonify({'tournaments': tournament.get_all_tournaments()})
 
 
