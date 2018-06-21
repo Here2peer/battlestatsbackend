@@ -106,6 +106,11 @@ def allPlauers():
     return jsonify(players.getAllPlayers())
 
 
+@app.route('/delete_players')
+def delete_players():
+    return jsonify(players.delete_players())
+
+
 @app.route('/champions')
 @cross_origin()
 def champions():

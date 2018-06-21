@@ -44,6 +44,10 @@ def getAllPlayers():
     return player_base.getAllPlayers()
 
 
+def delete_players():
+    return player_base.clearAllPLayers()
+
+
 def getPlayerJson(playerName):
     query = {
         "filter[playerNames]": playerName,

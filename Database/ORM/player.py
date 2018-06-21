@@ -92,3 +92,11 @@ def getAllPlayers():
     for player in Player.objects:
         players.append(player)
     return players
+
+
+def clearAllPLayers():
+    players = []
+    for player in Player.objects:
+        players.append(player)
+        player.delete()
+    return players
