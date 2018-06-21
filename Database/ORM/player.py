@@ -6,13 +6,19 @@ class Player(Document):
     battlerite_id = IntField(max_value=100000000000000000000)
     steam_id = IntField()  # todo max steam id, letters allowed?
 
+    winrate = StringField(max_length=10)
+    time_played = IntField()
+    twov2_ranked_wins = IntField()
+    twov2_unranked_wins = IntField()
+    threev3_ranked_wins = IntField()
+    threev3_unranked_wins = IntField()
+
 
 # update or create a player and save it to the database
-def update_player(br_name='ERROR: player not found', br_id=-1, steam_id=-1):
-    playername_set = False
-    player_id_set = False
-    steam_id_set = False
-
+def update_player(playerJson, steam_id=-1):
+    br_name = playerJson['attributes']['name']
+    br_id  = playerJson['id']
+    stats = playerJson['attributes']['stats']
     player = get_player_by_name(br_name)
     if player is None and br_id != -1:
         player = get_player_by_id(br_id)
@@ -20,35 +26,30 @@ def update_player(br_name='ERROR: player not found', br_id=-1, steam_id=-1):
         player = get_player_by_steam(steam_id)
 
     if player is not None:
-        if player.battlerite_name != 'ERROR: player not found':
-            playername_set = True
-        if player.battlerite_id != -1:
-            player_id_set = True
-        if player.steam_id != -1:
-            steam_id_set = True
-
-        print_player_info(player)
-        do_update = False
-        if (br_name != 'ERROR: player not found' and not playername_set) and br_name != player.battlerite_name:
-            player.battlerite_name = br_name
-            do_update = True
-        if (br_id != -1 and not player_id_set) and br_id != player.battlerite_id:
-            player.battlerite_id = br_id
-            do_update = True
-        if (steam_id != -1 and not steam_id_set) and steam_id != player.steam_id:
-            player.steam_id = steam_id
-            do_update = True
-
-        if do_update:
-            print('*********   updated player   *********')
-            print(br_name + " " + str(br_id) + " " + str(steam_id))
-            player.update()
+        player.update(
+            battlerite_name=br_name,
+            battlerite_id=br_id,
+            steam_id=steam_id,
+            winrate=playerJson['attributes']['customstats']['winRate'],
+            time_played=int(stats['8']),
+            twov2_ranked_wins=int(stats['10']),
+            twov2_unranked_wins=int(stats['14']),
+            threev3_ranked_wins=int(stats['12']),
+            threev3_unranked_wins=int(stats['16'])
+        )
+        print('*********   updated player   *********')
     else:
         print(br_name + " " + str(br_id) + " " + str(steam_id))
         Player(
             battlerite_name=br_name,
             battlerite_id=br_id,
             steam_id=steam_id,
+            winrate=playerJson['attributes']['customstats']['winRate'],
+            time_played=int(stats['8']),
+            twov2_ranked_wins=int(stats['10']),
+            twov2_unranked_wins=int(stats['14']),
+            threev3_ranked_wins=int(stats['12']),
+            threev3_unranked_wins=int(stats['16'])
         ).save()
         print('*********   created player   *********')
 
@@ -79,7 +80,7 @@ def get_player_by_id(id):
 
 # retrieve a player from the database
 def get_player_by_steam(steam):
-    query_set = Player.objects(steam_id = steam)
+    query_set = Player.objects(steam_id=steam)
     if query_set.count() > 0:
         for player in Player.objects(steam_id=steam):
             return player

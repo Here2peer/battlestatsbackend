@@ -1,0 +1,16 @@
+[
+  {
+    "_id": {
+      "$oid": "5b2bae7851a603156010147d"
+    },
+    "battlerite_id": 783445891691466752,
+    "battlerite_name": "Arkdn",
+    "steam_id": -1,
+    "threev3_ranked_wins": 119,
+    "threev3_unranked_wins": 282,
+    "time_played": 2431448,
+    "twov2_ranked_wins": 359,
+    "twov2_unranked_wins": 1954,
+    "winrate": "64.7%"
+  }
+]

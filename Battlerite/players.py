@@ -20,7 +20,6 @@ def getPlayerInfo(id, playerName, list):
     try:
         request = request.json()
         for player in request['data']:
-            player_base.update_player(player['attributes']['name'], player['id'])
             custom_stats = {}
             stats = player['attributes']['stats']
             time_played = int(stats['8'])
@@ -30,6 +29,7 @@ def getPlayerInfo(id, playerName, list):
             custom_stats['timePlayed'] = str(hours_played) + "h"
             custom_stats['winRate'] = str(round(wins / (wins + losses) * 100.0, 1)) + '%'
             player['attributes']['customstats'] = custom_stats
+            player_base.update_player(player)
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
         print(str(request.content))
