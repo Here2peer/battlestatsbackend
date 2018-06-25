@@ -16,6 +16,7 @@ class Match(Document):
 
 class Tournament(Document):
     tournamentID = IntField()
+    visibility = StringField(max_length=10)
     lastUpdated = StringField(max_length=50)
     tournamentName = StringField(max_length=50)
     tournament_owner = StringField(max_length=50)
@@ -24,10 +25,11 @@ class Tournament(Document):
     matches = ListField(ReferenceField(Match))
     status = StringField(max_length=50)
 
-def createTournament(owner, nteams):
+def createTournament(owner, nteams, visib):
     Tournament(
         tournament_owner = owner,
         lastUpdated = time(),
+        visibility = visib,
         num_teams = nteams,
         status="SIGNUPS"
     ).save()
@@ -67,6 +69,12 @@ def update_match(tourney_ID, match_ID, team_1, team_2, winning_team):
 def getTournament(id):
     for tournament in Tournament.objects(tournamentID=id):
         return tournament
+
+def get_public_tournaments():
+    tournaments = []
+    for tournament in Tournament.objects(visibility = "PUBLIC"):
+        tournaments.append(tournament)
+    return tournaments
 
 def get_all_tournaments():
     tournaments = []

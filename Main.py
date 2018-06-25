@@ -52,7 +52,7 @@ def getTournament():
     tourney = jsonify(getTournament(request.args.get('tournamentID')))
     return tourney, 200
 
-
+#Signs up a team, takes players, team id, team name and tournament id.
 @app.route('/tournament/signup', methods=['PUT'])
 def addTeam():
     p1 = request.data('p1')
@@ -63,13 +63,15 @@ def addTeam():
     tourney_id = request.data('tournamentID')
 
     tournament.addTeam(tourney_id, id, name, p1, p2, p3)
+    return "Succesfull", 303
 
-
+#create a new tournament, send player ID, number of teams and visibility
 @app.route("/tournament/create", methods=["POST"])
 def createTournament():
     pID = request.data('playerID')
     numTeams = request.data('numTeams')
-    tournament.createTournament(pID, numTeams)
+    visib = request.data('visibility')
+    tournament.createTournament(pID, numTeams, visib)
     return "Operation succesfull", 201
 
 
