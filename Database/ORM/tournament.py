@@ -31,23 +31,23 @@ class Tournament(Document):
 
 def createTournament(owner, nteams, visib):
     Tournament(
-        tournament_owner = owner,
-        lastUpdated = time(),
-        visibility = visib,
-        num_teams = nteams,
+        tournament_owner=owner,
+        lastUpdated=time(),
+        visibility=visib,
+        num_teams=nteams,
         status="SIGNUPS"
     ).save()
 
 
 def addTeam(tID, teamID, teamName, p1, p2, p3):
-    for tournament in Tournament.objects(tournamentID = tID):
+    for tournament in Tournament.objects(tournamentID=tID):
         if tournament.status == "SIGNUPS":
             newTeam = Team(
-                team_id = teamID,
-                name = teamName,
-                player1 = p1,
-                player2 = p2,
-                player3 = p3
+                team_id=teamID,
+                name=teamName,
+                player1=p1,
+                player2=p2,
+                player3=p3
             ).save()
             tournament.update_one(push__teams=newTeam)
             if tournament.teams.count() == tournament.num_teams:
@@ -56,21 +56,21 @@ def addTeam(tID, teamID, teamName, p1, p2, p3):
 
 
 def create_match(tourney_ID, team_1, team_2):
-    for tournament in Tournament.objects(tournamentID = tourney_ID):
+    for tournament in Tournament.objects(tournamentID=tourney_ID):
         newMatch = Match(
-            team1 = team_1,
-            team2 = team_2
+            team1=team_1,
+            team2=team_2
         ).save()
         tournament.update_one(push__matches=newMatch)
 
 
 def update_match(tourney_ID, match_ID, team_1, team_2, winning_team):
-    for tournament in Tournament.objects(tournamentID = tourney_ID):
-        for match in tournament.objects.filter((Q(team1 = team_1) and Q(team2 = team_2))):
+    for tournament in Tournament.objects(tournamentID=tourney_ID):
+        for match in tournament.objects.filter((Q(team1=team_1) and Q(team2=team_2))):
             match(
-                matchID = match_ID,
+                matchID=match_ID,
 
-                winner = winning_team
+                winner=winning_team
             ).save()
 
 
@@ -81,7 +81,7 @@ def getTournament(id):
 
 def get_public_tournaments():
     tournaments = []
-    for tournament in Tournament.objects(visibility = "PUBLIC"):
+    for tournament in Tournament.objects(visibility="PUBLIC"):
         tournaments.append(tournament)
     return tournaments
 

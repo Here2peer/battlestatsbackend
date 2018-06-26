@@ -24,9 +24,8 @@ def getTeamInfo(id, playerName):
     try:
         team_data = request['data']
         return insertTeamMemberNames(team_data)
-    except KeyError:
-        print("exception KeyError, not inserting member names")
-        print(request.keys())
+    except KeyError as error:
+        print("KeyError")
         return request
 
 
@@ -61,6 +60,8 @@ def team_id_with_playernames(player1, player2=None, player3=None):
 # method retrieves player names in groups of 6
 def insertTeamMemberNames(team_data):
     all_teammates = collect_team_member_ids(team_data)
+    for id in all_teammates:
+        pass
     all_teammates_jsons = []
     for id_list in all_teammates:  # for each unique team member fetch player info in one large dictionary
         if id_list != '':
@@ -75,7 +76,6 @@ def insertTeamMemberNames(team_data):
                 all_members[player['id']] = player_name  # find name with id
             else:
                 all_members[player['id']] = player_name + ','  # add comma for frontend purposes
-
     for team in team_data:  # create custom dictionary to add to team jsons containing playernames with id's
         members = {}
         team_members = team['attributes']['stats']['members']  # collect member ID's of team in a list
@@ -85,7 +85,6 @@ def insertTeamMemberNames(team_data):
             except KeyError:
                 members[member] = "Error: Api overloaded"
         team['attributes']['stats']['member_names'] = members
-
     return team_data
 
 
