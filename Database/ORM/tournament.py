@@ -1,6 +1,7 @@
 from datetime import time
 from mongoengine import *
 
+
 class Team(Document):
     team_id = StringField(max_length=50)
     name = StringField(max_length=50)
@@ -8,11 +9,13 @@ class Team(Document):
     player2 = StringField(max_length=50)
     player3 = StringField(max_length=50)
 
+
 class Match(Document):
     matchID = StringField(max_length=50)
     team1 = ReferenceField(Team)
     team2 = ReferenceField(Team)
     winner = ReferenceField(Team)
+
 
 class Tournament(Document):
     tournamentID = IntField()
@@ -25,6 +28,7 @@ class Tournament(Document):
     matches = ListField(ReferenceField(Match))
     status = StringField(max_length=50)
 
+
 def createTournament(owner, nteams, visib):
     Tournament(
         tournament_owner = owner,
@@ -33,6 +37,7 @@ def createTournament(owner, nteams, visib):
         num_teams = nteams,
         status="SIGNUPS"
     ).save()
+
 
 def addTeam(tID, teamID, teamName, p1, p2, p3):
     for tournament in Tournament.objects(tournamentID = tID):
@@ -47,7 +52,8 @@ def addTeam(tID, teamID, teamName, p1, p2, p3):
             tournament.update_one(push__teams=newTeam)
             if tournament.teams.count() == tournament.num_teams:
                 tournament.status = "STARTED"
-                #TODO: Start generating matches here!
+                # TODO: Start generating matches here!
+
 
 def create_match(tourney_ID, team_1, team_2):
     for tournament in Tournament.objects(tournamentID = tourney_ID):
@@ -66,15 +72,18 @@ def update_match(tourney_ID, match_ID, team_1, team_2, winning_team):
                 winner = winning_team
             ).save()
 
+
 def getTournament(id):
     for tournament in Tournament.objects(tournamentID=id):
         return tournament
+
 
 def get_public_tournaments():
     tournaments = []
     for tournament in Tournament.objects(visibility = "PUBLIC"):
         tournaments.append(tournament)
     return tournaments
+
 
 def get_all_tournaments():
     tournaments = []
