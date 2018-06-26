@@ -39,6 +39,7 @@ def logout():
     # pop from session
     return request.referrer  # https://stackoverflow.com/questions/14277067/redirect-back-in-flask
 
+# ---------------------------------------------------
 
 @app.route("/tournament/tournamentList", methods=['GET'])
 def getTournaments():
@@ -48,8 +49,8 @@ def getTournaments():
 
 
 @app.route('/tournament', methods=['GET'])
-def getTournament():
-    tourney = jsonify(getTournament(request.args.get('tournamentID')))
+def getTourney():
+    tourney = jsonify(tournament.getTournament(request.args.get('tournamentID')))
     return tourney, 200
 
 
@@ -79,8 +80,10 @@ def createTournament():
 
 @app.route("/tournaments")
 def getTournamentsss():
-    return jsonify({'tournaments': tournament.get_all_tournaments()})
+    return jsonify({'tournaments': tournament.get_public_tournaments()})
 
+
+# ---------------------------------------------------
 
 @app.route('/player')
 @cross_origin()

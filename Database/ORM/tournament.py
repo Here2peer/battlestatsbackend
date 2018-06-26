@@ -63,6 +63,7 @@ def create_match(tourney_ID, team_1, team_2):
         ).save()
         tournament.update_one(push__matches=newMatch)
 
+
 def update_match(tourney_ID, match_ID, team_1, team_2, winning_team):
     for tournament in Tournament.objects(tournamentID = tourney_ID):
         for match in tournament.objects.filter((Q(team1 = team_1) and Q(team2 = team_2))):
