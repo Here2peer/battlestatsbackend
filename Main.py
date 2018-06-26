@@ -53,6 +53,7 @@ def logout():
     # pop from session
     return request.referrer  # https://stackoverflow.com/questions/14277067/redirect-back-in-flask
 
+# ---------------------------------------------------
 
 @app.route("/tournament/tournamentList", methods=['GET'])
 def getTournaments():
@@ -62,32 +63,41 @@ def getTournaments():
 
 
 @app.route('/tournament', methods=['GET'])
-def getTournament():
-    tourney = jsonify(getTournament(request.args.get('tournamentID')))
+def getTourney():
+    tourney = jsonify(tournament.getTournament(request.args.get('tournamentID')))
     return tourney, 200
 
 
+# Signs up a team, takes players, team id, team name and tournament id.
 @app.route('/tournament/signup', methods=['PUT'])
 def addTeam():
     p1 = request.data('p1')
     p2 = request.data('p2')
     p3 = request.data('p3')  # if it exists!!
+    id = ""
+    name = ""
+    tourney_id = request.data('tournamentID')
 
-    tournament.addTeam()
+    tournament.addTeam(tourney_id, id, name, p1, p2, p3)
+    return "Succesfull", 303
 
 
+# create a new tournament, send player ID, number of teams and visibility
 @app.route("/tournament/create", methods=["POST"])
 def createTournament():
     pID = request.data('playerID')
     numTeams = request.data('numTeams')
-    tournament.createTournament(pID, numTeams)
+    visib = request.data('visibility')
+    tournament.createTournament(pID, numTeams, visib)
     return "Operation succesfull", 201
 
 
 @app.route("/tournaments")
 def getTournamentsss():
-    return jsonify({'tournaments': tournament.get_all_tournaments()})
+    return jsonify({'tournaments': tournament.get_public_tournaments()})
 
+
+# ---------------------------------------------------
 
 @app.route('/player')
 @cross_origin()

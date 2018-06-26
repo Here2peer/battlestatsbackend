@@ -2,7 +2,6 @@ from datetime import time
 from mongoengine import *
 
 
-
 class Team(Document):
     team_id = StringField(max_length=50)
     name = StringField(max_length=50)
@@ -18,9 +17,9 @@ class Match(Document):
     winner = ReferenceField(Team)
 
 
-
 class Tournament(Document):
     tournamentID = IntField()
+    visibility = StringField(max_length=10)
     lastUpdated = StringField(max_length=50)
     tournamentName = StringField(max_length=50)
     tournament_owner = StringField(max_length=50)
@@ -30,41 +29,61 @@ class Tournament(Document):
     status = StringField(max_length=50)
 
 
-def createTournament(owner, nteams):
+def createTournament(owner, nteams, visib):
     Tournament(
-        tournament_owner = owner,
-        lastUpdated = time(),
-        num_teams = nteams,
+        tournament_owner=owner,
+        lastUpdated=time(),
+        visibility=visib,
+        num_teams=nteams,
         status="SIGNUPS"
     ).save()
 
+
 def addTeam(tID, teamID, teamName, p1, p2, p3):
-    for tournament in Tournament.objects(tournamentID = tID):
-        if tournament.teams.count() < tournament.num_teams:
+    for tournament in Tournament.objects(tournamentID=tID):
+        if tournament.status == "SIGNUPS":
             newTeam = Team(
-                team_id = teamID,
-                name = teamName,
-                player1 = p1,
-                player2 = p2,
-                player3 = p3
+                team_id=teamID,
+                name=teamName,
+                player1=p1,
+                player2=p2,
+                player3=p3
             ).save()
             tournament.update_one(push__teams=newTeam)
-            #TODO: If tournament is full, generate matches
+            if tournament.teams.count() == tournament.num_teams:
+                tournament.status = "STARTED"
+                # TODO: Start generating matches here!
 
-def addMatch(tourney_ID, match_ID, team_1, team_2, winning_team):
-    for tournament in Tournament.objects(tournamentID = tourney_ID):
-        for match in tournament.objects.filter((Q(team1 = team_1) and Q(team2 = team_2))):
+
+def create_match(tourney_ID, team_1, team_2):
+    for tournament in Tournament.objects(tournamentID=tourney_ID):
+        newMatch = Match(
+            team1=team_1,
+            team2=team_2
+        ).save()
+        tournament.update_one(push__matches=newMatch)
+
+
+def update_match(tourney_ID, match_ID, team_1, team_2, winning_team):
+    for tournament in Tournament.objects(tournamentID=tourney_ID):
+        for match in tournament.objects.filter((Q(team1=team_1) and Q(team2=team_2))):
             match(
-                matchID = match_ID,
-                winner = winning_team
+                matchID=match_ID,
+
+                winner=winning_team
             ).save()
-
-
 
 
 def getTournament(id):
     for tournament in Tournament.objects(tournamentID=id):
         return tournament
+
+
+def get_public_tournaments():
+    tournaments = []
+    for tournament in Tournament.objects(visibility="PUBLIC"):
+        tournaments.append(tournament)
+    return tournaments
 
 
 def get_all_tournaments():
