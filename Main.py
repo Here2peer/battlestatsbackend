@@ -42,10 +42,7 @@ def after_login(response):
         "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (
         keys['Steam'].strip(), response.identity_url))
     dataJson = json.loads(dataRaw.text)['response']['players'][0]
-
-    return '{}'.format(dataJson['steamid']), 200
-    app.steamUser = dataRaw.text
-    return redirect(openID.get_next_url())
+    return redirect(openID.get_next_url() + '?{}'.format(dataJson['steamid']))
 
 
 @app.route("/logout")  # add methods?
