@@ -15,7 +15,6 @@ def getTeamInfo(id, playerName):
     }
 
     request = requests.get(url, headers=header, params=query)
-
     try:
         request = request.json()
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
@@ -23,9 +22,11 @@ def getTeamInfo(id, playerName):
         print('request: ' + str(request.content))
         return json.load(open('Battlerite/dummyJsons/faketeam.json', 'r'))
     try:
-        team_data = request["data"]
+        team_data = request['data']
         return insertTeamMemberNames(team_data)
     except KeyError:
+        print("exception KeyError, not inserting member names")
+        print(request.keys())
         return request
 
 
