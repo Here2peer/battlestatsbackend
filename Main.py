@@ -93,6 +93,7 @@ def getPlayer():
 
 
 @app.route('/players')
+@cross_origin()
 def allPlauers():
     return jsonify(players.getAllPlayers())
 
