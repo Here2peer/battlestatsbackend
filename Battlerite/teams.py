@@ -62,7 +62,7 @@ def insertTeamMemberNames(team_data):
     all_teammates = collect_team_member_ids(team_data)
     all_members = {}
     for id in all_teammates:
-
+        pass
     all_teammates_jsons = []
     for id_list in all_teammates:  # for each unique team member fetch player info in one large dictionary
         if id_list != '':

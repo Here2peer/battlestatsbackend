@@ -37,7 +37,7 @@ def getPlayerInfo(id, playerName, list, steam_id=False):
             if not steam_id:
                 player_base.update_player(player)
             else:
-                player_base.update_player(player, #todo add some steam shizzle)
+                player_base.update_player(player, )  # todo add some steam shizzle)
                 # todo richard dit is jouw moment
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
