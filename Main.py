@@ -2,11 +2,9 @@ from flask import Flask, redirect, request, jsonify  # session?
 from flask_openid import OpenID
 from flask_cors import cross_origin
 from Battlerite import teams, players, matches, telemetry
-from Steam import Steam
-import requests, json
-from cfg.cfg import keys
 from Database.MongoDB import mongodb
 from Database.ORM import champion, tournament, test
+from Steam.Steam import getSInfo
 
 app = Flask(__name__)
 openID = OpenID(app)
@@ -17,33 +15,16 @@ app.config.update(
     TESTING=True
 )
 db = mongodb.initialise_database(app)
-app.steamUser = None
-
-
-def getInfo(steamID):
-    return Steam.getInfo(steamID)
-
-
-@app.route('/steamuser')
-@cross_origin()
-def steamuser():
-    return app.steamUser
-
+#app.steamUser = None
 
 @app.route("/steam", methods=["GET"])
 @openID.loginhandler
 def login():
     return openID.try_login('http://steamcommunity.com/openid')
 
-
 @openID.after_login
 def after_login(response):
-    dataRaw = requests.get(
-        "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s&format=json" % (
-        keys['Steam'].strip(), response.identity_url))
-    dataJson = json.loads(dataRaw.text)['response']['players'][0]
-    return redirect(openID.get_next_url() + '?{}'.format(dataJson['steamid']))
-
+    return redirect(openID.get_next_url() + '?{}'.format(getSInfo(response)['steamid']))
 
 @app.route("/logout")  # add methods?
 def logout():
