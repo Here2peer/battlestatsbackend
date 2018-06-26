@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 from mongoengine import *
 
 
@@ -28,8 +31,14 @@ def update_player(playerJson, steam_id=-1, steam_pic="nopic"):
     # if value is 0 the battlerite api omits the stat, compensate that here
     keylist = ['8', '10', '14', '12', '16']
     for key in keylist:
-        if key not in stats.keys():
+        try:
+            stats[key]
+        except KeyError as error:
+            exc_info = sys.exc_info()
+            print(error)
             stats[key] = 0
+            traceback.print_exception(*exc_info)
+
 
     if player is not None:
         player.update(

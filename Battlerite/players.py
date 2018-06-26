@@ -1,4 +1,8 @@
+import traceback
+
 import requests, json
+import sys
+
 from cfg.cfg import url, header
 from Database.ORM import player as player_base
 
@@ -27,6 +31,17 @@ def getPlayerInfo(id, playerName, list, steam_id=False):
         for player in request['data']:
             custom_stats = {}
             stats = player['attributes']['stats']
+
+            keylist = ['8', '2', '3']
+            for key in keylist:
+                try:
+                    stats[key]
+                except KeyError as error:
+                    exc_info = sys.exc_info()
+                    print(error)
+                    stats[key] = 1
+                    traceback.print_exception(*exc_info)
+
             time_played = int(stats['8'])
             hours_played = int(time_played / 60 / 60)
             wins = int(stats['2'])
