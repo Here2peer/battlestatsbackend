@@ -5,7 +5,7 @@ from Database.ORM import player as player_base
 url = url + "players"  # url = "https://api.dc01.gamelockerapp.com/shards/global/players"
 
 
-def getPlayerInfo(id, playerName, list):
+def getPlayerInfo(id, playerName, list, steam_id=False):
     if id:
         query = {
             "filter[playerIds]": playerName,
@@ -14,6 +14,11 @@ def getPlayerInfo(id, playerName, list):
     else:
         query = {
             "filter[playerNames]": playerName,
+            "page[limit]": "6"
+        }
+    if steam_id:
+        query = {
+            "filter[steamIds]": playerName,
             "page[limit]": "6"
         }
     request = requests.get(url, headers=header, params=query)
@@ -29,7 +34,11 @@ def getPlayerInfo(id, playerName, list):
             custom_stats['timePlayed'] = str(hours_played) + "h"
             custom_stats['winRate'] = str(round(wins / (wins + losses) * 100.0, 1)) + '%'
             player['attributes']['customstats'] = custom_stats
-            player_base.update_player(player)
+            if not steam_id:
+                player_base.update_player(player)
+            else:
+                player_base.update_player(player, #todo add some steam shizzle)
+                # todo richard dit is jouw moment
     except ValueError:  # includes simplejson.decoder.JSONDecodeError
         print('Decoding JSON has failed -- ***********************************')
         print(str(request.content))

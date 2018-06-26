@@ -60,14 +60,15 @@ def team_id_with_playernames(player1, player2=None, player3=None):
 # method retrieves player names in groups of 6
 def insertTeamMemberNames(team_data):
     all_teammates = collect_team_member_ids(team_data)
+    all_members = {}
     for id in all_teammates:
-        pass
+
     all_teammates_jsons = []
     for id_list in all_teammates:  # for each unique team member fetch player info in one large dictionary
         if id_list != '':
             all_teammates_jsons.append(players.getPlayerInfo(1, id_list, True))
 
-    all_members = {}
+
     for playerData in all_teammates_jsons:  # for each player match id with name
         last_player = playerData['data'][len(playerData['data']) - 1]
         for player in playerData['data']:
