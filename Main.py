@@ -17,6 +17,7 @@ app.config.update(
 db = mongodb.initialise_database(app)
 #app.steamUser = None
 
+app.run(host='0.0.0.0')
 @app.route("/steam", methods=["GET"])
 @openID.loginhandler
 def login():
