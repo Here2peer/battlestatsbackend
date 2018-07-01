@@ -29,11 +29,12 @@ class Tournament(Document):
     status = StringField(max_length=50)
 
 
-def createTournament(owner, nteams, visib):
+def createTournament(owner, name, nteams, visib):
     Tournament(
         tournament_owner=owner,
         lastUpdated=time(),
         visibility=visib,
+        name=name,
         num_teams=nteams,
         status="SIGNUPS"
     ).save()

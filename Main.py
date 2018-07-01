@@ -66,7 +66,8 @@ def createTournament():
     pID = request.data('playerID')
     numTeams = request.data('numTeams')
     visib = request.data('visibility')
-    tournament.createTournament(pID, numTeams, visib)
+    name = request.data('tourneyName')
+    tournament.createTournament(pID, name, numTeams, visib)
     return "Operation succesfull", 201
 
 
