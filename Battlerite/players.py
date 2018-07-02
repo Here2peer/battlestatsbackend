@@ -9,7 +9,7 @@ from Database.ORM import player as player_base
 url = url + "players"  # url = "https://api.dc01.gamelockerapp.com/shards/global/players"
 
 
-def getPlayerInfo(id, playerName, list, steam_id=False):
+def getPlayerInfo(id, playerName, steam_id=False):
     if id:
         query = {
             "filter[playerIds]": playerName,
