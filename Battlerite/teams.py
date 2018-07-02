@@ -78,7 +78,7 @@ def insertTeamMemberNames(team_data):
             remaining_teammates.append(id)
 
     player_query = ['']
-    if len(remaining_teammates)>0:
+    if len(remaining_teammates) > 0:
         player_query = prepare_multiple_query_strings(remaining_teammates)
 
     all_teammates_jsons = []
@@ -97,16 +97,19 @@ def insertTeamMemberNames(team_data):
 
     for team in team_data:  # create custom dictionary to add to team jsons containing playernames with id's
         members = {}
+        formatted_members = {}
         team_members = team['attributes']['stats']['members']  # collect member ID's of team in a list
-        last_member = team_members[len(team_members)-1]
+        last_member = team_members[len(team_members) - 1]
         for member in team_members:
-            last = member==last_member
+            last = member == last_member
             try:
                 name = all_members[member]  # find name with id
             except KeyError:
-                members[member] = "Error: Api overloaded"
-            members[member] = name if last else name + ","
+                name = "Error: Api overloaded"
+            formatted_members[member] = name if last else name + ","
+            members = name
         team['attributes']['stats']['member_names'] = members
+        team['attributes']['stats']['formatted_member_names'] = formatted_members
 
     return team_data
 
@@ -139,7 +142,7 @@ def prepare_multiple_query_strings(team_members):
 
         player_to_be_processed += 1
 
-    if len(all_teammates)!=0:
+    if len(all_teammates) != 0:
         if player_to_be_processed > 1:
             last_id_string = all_teammates[int((player_to_be_processed - 2) / 6)]
         else:
