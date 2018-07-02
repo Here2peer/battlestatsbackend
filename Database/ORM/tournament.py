@@ -24,18 +24,20 @@ class Tournament(Document):
     tournamentName = StringField(max_length=50)
     tournament_owner = StringField(max_length=50)
     num_teams = IntField()
+    teamsize = IntField()
     teams = ListField(ReferenceField(Team))
     matches = ListField(ReferenceField(Match))
     status = StringField(max_length=50)
 
 
-def createTournament(owner, name, nteams, visib):
+def createTournament(owner, name, nteams, visib, teamsize):
     Tournament(
         tournament_owner=owner,
         lastUpdated=time(),
         visibility=visib,
         name=name,
         num_teams=nteams,
+        teamsize=teamsize,
         status="SIGNUPS"
     ).save()
 
@@ -54,6 +56,17 @@ def addTeam(tID, teamID, teamName, p1, p2, p3):
             if tournament.teams.count() == tournament.num_teams:
                 tournament.status = "STARTED"
                 # TODO: Start generating matches here!
+
+def addPlayer(tID, teamID, player):
+    for tournament in Tournament.objects(tournamentID=tID):
+        if tournament.status == "SIGNUPS":
+            for team in tournament.teams(teamID = team):
+                if not team.player2:
+                    team.player2 = player
+                else:
+                    if not team.player3:
+                        team.player3 = player
+
 
 
 def create_match(tourney_ID, team_1, team_2):

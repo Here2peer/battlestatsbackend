@@ -46,6 +46,15 @@ def getTourney():
     return tourney, 200
 
 
+@app.route('/tournament/signup/player', methods=['PUT'])
+def addPlayer():
+    player = request.data('p1')
+    team = request.data('team')
+    tourney_id = request.data('tournamentID')
+
+    tournament.addPlayer(tourney_id, team, player)
+    return "Succesfull", 303
+
 # Signs up a team, takes players, team id, team name and tournament id.
 @app.route('/tournament/signup', methods=['PUT'])
 def addTeam():
@@ -67,7 +76,8 @@ def createTournament():
     numTeams = request.data('numTeams')
     visib = request.data('visibility')
     name = request.data('tourneyName')
-    tournament.createTournament(pID, name, numTeams, visib)
+    ppt = request.data('playersPerTeam')
+    tournament.createTournament(pID, name, numTeams, visib, ppt)
     return "Operation succesfull", 201
 
 
