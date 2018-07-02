@@ -93,17 +93,21 @@ def insertTeamMemberNames(team_data):
             if player_name == last_player['attributes']['name']:
                 all_members[player['id']] = player_name  # find name with id
             else:
-                all_members[player['id']] = player_name + ','  # add comma for frontend purposes
+                all_members[player['id']] = player_name + ","  # add comma for frontend purposes
 
     for team in team_data:  # create custom dictionary to add to team jsons containing playernames with id's
         members = {}
         team_members = team['attributes']['stats']['members']  # collect member ID's of team in a list
+        last_member = team_members[len(team_members)-1]
         for member in team_members:
+            last = member==last_member
             try:
-                members[member] = all_members[member]  # find name with id
+                name = all_members[member]  # find name with id
             except KeyError:
                 members[member] = "Error: Api overloaded"
+            members[member] = name if last else name + ","
         team['attributes']['stats']['member_names'] = members
+
     return team_data
 
 
