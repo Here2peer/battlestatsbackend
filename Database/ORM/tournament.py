@@ -32,10 +32,11 @@ class Tournament(Document):
 
 def createTournament(owner, name, nteams, visib, teamsize):
     Tournament(
+        tournamentID=0,
         tournament_owner=owner,
-        lastUpdated=time(),
+        lastUpdated=str(time()),
         visibility=visib,
-        name=name,
+        tournamentName=name,
         num_teams=nteams,
         teamsize=teamsize,
         status="SIGNUPS"
