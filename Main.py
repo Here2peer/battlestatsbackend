@@ -73,18 +73,18 @@ def addTeam():
 # create a new tournament, send player ID, number of teams and visibility
 @app.route("/tournament/create", methods=["POST"])
 def createTournament():
-    pID = request.data('playerID')
-    numTeams = request.data('numTeams')
-    visib = request.data('visibility')
-    name = request.data('tourneyName')
-    ppt = request.data('playersPerTeam')
+    pID = request.values['playerID']
+    numTeams = request.values['numTeams']
+    visib = request.values['visibility']
+    name = request.values['tourneyName']
+    ppt = request.values['playersPerTeam']
     tournament.createTournament(pID, name, numTeams, visib, ppt)
     return "Operation succesfull", 201
 
 
 @app.route("/tournaments")
 def getTournamentsss():
-    return jsonify({'tournaments': tournament.get_public_tournaments()})
+    return jsonify({'tournaments': tournament.get_all_tournaments()})
 
 
 # ---------------------------------------------------
