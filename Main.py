@@ -24,7 +24,7 @@ def login():
 
 @openID.after_login
 def after_login(response):
-    return redirect(openID.get_next_url() + '?{}'.format(getSInfo(response)['steamid']))
+    return redirect(openID.get_next_url() + '?BRid={}'.format(getSInfo(response)['steamid']))
 
 @app.route("/logout")  # add methods?
 def logout():
