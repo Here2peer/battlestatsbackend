@@ -26,7 +26,6 @@ def getPlayerInfo(id, playerName, steam_id=False):
             "page[limit]": "6"
         }
     request = requests.get(url, headers=header, params=query)
-    return request.json()
     try:
         request = request.json()
         for player in request['data']:
